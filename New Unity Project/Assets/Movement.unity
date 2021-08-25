@@ -904,8 +904,8 @@ MonoBehaviour:
   health: 100
   hasGroceries: 0
   isAlive: 1
-  speed: 10
-  rotationalSpeed: 5
+  speed: 20
+  rotationalSpeed: 25
 --- !u!136 &1885234536
 CapsuleCollider:
   m_ObjectHideFlags: 0

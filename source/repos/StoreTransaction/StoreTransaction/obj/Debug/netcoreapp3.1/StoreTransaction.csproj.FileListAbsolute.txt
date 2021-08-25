@@ -1,0 +1,8 @@
+C:\Users\s219010\source\repos\StoreTransaction\StoreTransaction\bin\Debug\netcoreapp3.1\StoreTransaction.deps.json
+C:\Users\s219010\source\repos\StoreTransaction\StoreTransaction\bin\Debug\netcoreapp3.1\StoreTransaction.dll
+C:\Users\s219010\source\repos\StoreTransaction\StoreTransaction\bin\Debug\netcoreapp3.1\StoreTransaction.pdb
+C:\Users\s219010\source\repos\StoreTransaction\StoreTransaction\obj\Debug\netcoreapp3.1\StoreTransaction.csprojAssemblyReference.cache
+C:\Users\s219010\source\repos\StoreTransaction\StoreTransaction\obj\Debug\netcoreapp3.1\StoreTransaction.AssemblyInfoInputs.cache
+C:\Users\s219010\source\repos\StoreTransaction\StoreTransaction\obj\Debug\netcoreapp3.1\StoreTransaction.AssemblyInfo.cs
+C:\Users\s219010\source\repos\StoreTransaction\StoreTransaction\obj\Debug\netcoreapp3.1\StoreTransaction.dll
+C:\Users\s219010\source\repos\StoreTransaction\StoreTransaction\obj\Debug\netcoreapp3.1\StoreTransaction.pdb

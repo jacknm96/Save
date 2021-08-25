@@ -26,7 +26,7 @@ public class InterceptorBot : DamagableBody
 
     public override void Move()
     {
-        transform.position += (player.transform.position - transform.position).normalized * speed * Time.fixedDeltaTime;
+        // transform.position += (player.transform.position - transform.position).normalized * speed * Time.fixedDeltaTime;
     }
 
     public override void OnDeath()
