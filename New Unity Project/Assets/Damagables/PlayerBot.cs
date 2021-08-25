@@ -48,8 +48,14 @@ public class PlayerBot : DamagableBody
 
     public override void Move()
     {
-        rb.velocity += transform.forward * horizontal * speed * Time.fixedDeltaTime;
-        transform.Rotate(0, vertical * rotationalSpeed * Time.fixedDeltaTime, 0);
+        if (vertical != 0)
+        {
+            rb.velocity += transform.forward * vertical * speed * Time.fixedDeltaTime;
+        }
+        if (horizontal != 0)
+        {
+            transform.Rotate(0, horizontal * rotationalSpeed * Time.fixedDeltaTime, 0);
+        }
     }
 
     public override void OnDeath()

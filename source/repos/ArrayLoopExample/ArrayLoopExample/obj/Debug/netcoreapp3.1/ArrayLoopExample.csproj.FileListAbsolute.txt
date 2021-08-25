@@ -1,0 +1,11 @@
+C:\Users\s219010\source\repos\ArrayLoopExample\ArrayLoopExample\bin\Debug\netcoreapp3.1\ArrayLoopExample.exe
+C:\Users\s219010\source\repos\ArrayLoopExample\ArrayLoopExample\bin\Debug\netcoreapp3.1\ArrayLoopExample.deps.json
+C:\Users\s219010\source\repos\ArrayLoopExample\ArrayLoopExample\bin\Debug\netcoreapp3.1\ArrayLoopExample.runtimeconfig.json
+C:\Users\s219010\source\repos\ArrayLoopExample\ArrayLoopExample\bin\Debug\netcoreapp3.1\ArrayLoopExample.runtimeconfig.dev.json
+C:\Users\s219010\source\repos\ArrayLoopExample\ArrayLoopExample\bin\Debug\netcoreapp3.1\ArrayLoopExample.dll
+C:\Users\s219010\source\repos\ArrayLoopExample\ArrayLoopExample\bin\Debug\netcoreapp3.1\ArrayLoopExample.pdb
+C:\Users\s219010\source\repos\ArrayLoopExample\ArrayLoopExample\obj\Debug\netcoreapp3.1\ArrayLoopExample.csprojAssemblyReference.cache
+C:\Users\s219010\source\repos\ArrayLoopExample\ArrayLoopExample\obj\Debug\netcoreapp3.1\ArrayLoopExample.AssemblyInfoInputs.cache
+C:\Users\s219010\source\repos\ArrayLoopExample\ArrayLoopExample\obj\Debug\netcoreapp3.1\ArrayLoopExample.AssemblyInfo.cs
+C:\Users\s219010\source\repos\ArrayLoopExample\ArrayLoopExample\obj\Debug\netcoreapp3.1\ArrayLoopExample.dll
+C:\Users\s219010\source\repos\ArrayLoopExample\ArrayLoopExample\obj\Debug\netcoreapp3.1\ArrayLoopExample.pdb
