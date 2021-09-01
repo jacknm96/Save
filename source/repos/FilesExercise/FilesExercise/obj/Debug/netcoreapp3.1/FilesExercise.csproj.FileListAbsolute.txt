@@ -1,0 +1,11 @@
+C:\Users\s219010\source\repos\FilesExercise\FilesExercise\bin\Debug\netcoreapp3.1\FilesExercise.exe
+C:\Users\s219010\source\repos\FilesExercise\FilesExercise\bin\Debug\netcoreapp3.1\FilesExercise.deps.json
+C:\Users\s219010\source\repos\FilesExercise\FilesExercise\bin\Debug\netcoreapp3.1\FilesExercise.runtimeconfig.json
+C:\Users\s219010\source\repos\FilesExercise\FilesExercise\bin\Debug\netcoreapp3.1\FilesExercise.runtimeconfig.dev.json
+C:\Users\s219010\source\repos\FilesExercise\FilesExercise\bin\Debug\netcoreapp3.1\FilesExercise.dll
+C:\Users\s219010\source\repos\FilesExercise\FilesExercise\bin\Debug\netcoreapp3.1\FilesExercise.pdb
+C:\Users\s219010\source\repos\FilesExercise\FilesExercise\obj\Debug\netcoreapp3.1\FilesExercise.csprojAssemblyReference.cache
+C:\Users\s219010\source\repos\FilesExercise\FilesExercise\obj\Debug\netcoreapp3.1\FilesExercise.AssemblyInfoInputs.cache
+C:\Users\s219010\source\repos\FilesExercise\FilesExercise\obj\Debug\netcoreapp3.1\FilesExercise.AssemblyInfo.cs
+C:\Users\s219010\source\repos\FilesExercise\FilesExercise\obj\Debug\netcoreapp3.1\FilesExercise.dll
+C:\Users\s219010\source\repos\FilesExercise\FilesExercise\obj\Debug\netcoreapp3.1\FilesExercise.pdb
