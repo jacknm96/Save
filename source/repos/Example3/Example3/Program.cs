@@ -6,63 +6,55 @@ namespace Example3
     {
         static void Main(string[] args)
         {
-            FindMultiples(-20);
+            FindMultiples(-30);
         }
 
         static void FindMultiples (int n)
         {
-            if (n == 0)
+            if (n == 0) // no loop necessary, prints '0' as it is not a multiple of 3 or 5
             {
-                Console.WriteLine("Nice One");
+                Console.WriteLine("0");
             } else if (n > 0)
             {
                 for (int i = 1; i <= n; i++)
                 {
-                    int a = i % 3;
-                    int b = i % 5;
-                    if (a == 0 && b == 0)
+                    bool a = i % 3 == 0; // stores values as boolean, true if divisible by 3
+                    bool b = i % 5 == 0; // stores values as boolean, true if divisible by 5
+                    if (a)
                     {
-                        Console.WriteLine("FizzBuzz");
+                        Console.Write("Fizz");
                     }
-                    else if (a == 0)
+                    if (b)
                     {
-                        Console.WriteLine("Fizz");
+                        Console.Write("Buzz");
                     }
-                    else if (b == 0)
+                    if (!a && !b)
                     {
-                        Console.WriteLine("Buzz");
+                        Console.Write(i.ToString());
                     }
-                    else
-                    {
-                        Console.WriteLine(i.ToString());
-                    }
+                    Console.WriteLine();
                 }
-            } else if (n < 0)
+            } else // same as previous loop, but accounts for negative numbers
             {
                 for (int i = -1; i >= n; i--)
                 {
-                    int a = i % 3;
-                    int b = i % 5;
-                    if (a == 0 && b == 0)
+                    bool a = i % 3 == 0; // stores values as boolean, true if divisible by 3
+                    bool b = i % 5 == 0; // stores values as boolean, true if divisible by 5
+                    if (a)
                     {
-                        Console.WriteLine("FizzBuzz");
+                        Console.Write("Fizz");
                     }
-                    else if (a == 0)
+                    if (b)
                     {
-                        Console.WriteLine("Fizz");
+                        Console.Write("Buzz");
                     }
-                    else if (b == 0)
+                    if (!a && !b)
                     {
-                        Console.WriteLine("Buzz");
+                        Console.Write(i.ToString());
                     }
-                    else
-                    {
-                        Console.WriteLine(i.ToString());
-                    }
+                    Console.WriteLine();
                 }
-            }
-            
-            
+            } 
         }
     }
 }

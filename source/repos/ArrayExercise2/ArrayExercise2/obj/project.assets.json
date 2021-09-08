@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\s219010\\source\\repos\\ArrayExercise2\\ArrayExercise2\\ArrayExercise2.csproj",
+      "projectUniqueName": "C:\\Users\\s219010\\Save\\source\\repos\\ArrayExercise2\\ArrayExercise2\\ArrayExercise2.csproj",
       "projectName": "ArrayExercise2",
-      "projectPath": "C:\\Users\\s219010\\source\\repos\\ArrayExercise2\\ArrayExercise2\\ArrayExercise2.csproj",
+      "projectPath": "C:\\Users\\s219010\\Save\\source\\repos\\ArrayExercise2\\ArrayExercise2\\ArrayExercise2.csproj",
       "packagesPath": "C:\\Users\\s219010\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\s219010\\source\\repos\\ArrayExercise2\\ArrayExercise2\\obj\\",
+      "outputPath": "C:\\Users\\s219010\\Save\\source\\repos\\ArrayExercise2\\ArrayExercise2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\s219010\\AppData\\Roaming\\NuGet\\NuGet.Config",

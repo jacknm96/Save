@@ -4,46 +4,49 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour
+namespace fOff
 {
-    /*
-    public Dictionary<string, float> itemCosts = new Dictionary<string, float>();
-    public List<string> items = new List<string>();
-    public List<float> costs = new List<float>();
-
-    public void AddItemsToDictionary()
+    public class Inventory : MonoBehaviour
     {
-        for (int i = 0; i < items.Count; i++)
+        /*
+        public Dictionary<string, float> itemCosts = new Dictionary<string, float>();
+        public List<string> items = new List<string>();
+        public List<float> costs = new List<float>();
+
+        public void AddItemsToDictionary()
         {
-            itemCosts.Add(items[i], costs[i]);
+            for (int i = 0; i < items.Count; i++)
+            {
+                itemCosts.Add(items[i], costs[i]);
+            }
         }
-    }
 
-    public void RemoveItemsFromDictionary()
-    {
-        for (int i = 0; i < items.Count; i++)
+        public void RemoveItemsFromDictionary()
         {
-            itemCosts.Remove(items[i]);
+            for (int i = 0; i < items.Count; i++)
+            {
+                itemCosts.Remove(items[i]);
+            }
         }
-    }
-    */
+        */
 
-    [SerializeField] ItemRepresentation[] inventoryDisplay;
+        [SerializeField] ItemRepresentation[] inventoryDisplay;
 
-    public PlayerData playerData;
+        public PlayerData playerData;
 
-    private void Start()
-    {
-        playerData.StartInventory();
-        UpdateInventoryDisplay();
-    }
-
-
-    void UpdateInventoryDisplay()
-    {
-        for (int i = 0; i < inventoryDisplay.Length; i++)
+        private void Start()
         {
-            inventoryDisplay[i].UpdateButton(playerData.inventory[i]);
+            playerData.StartInventory();
+            UpdateInventoryDisplay();
+        }
+
+
+        void UpdateInventoryDisplay()
+        {
+            for (int i = 0; i < inventoryDisplay.Length; i++)
+            {
+                inventoryDisplay[i].UpdateButton(playerData.inventory[i]);
+            }
         }
     }
 }

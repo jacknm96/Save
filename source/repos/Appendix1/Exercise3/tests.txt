@@ -1,0 +1,40 @@
+Test 1
+
+I input n = 15. Expected output was:
+1
+2
+Fizz
+4
+Buzz
+Fizz
+7
+8
+Fizz
+Buzz
+11
+Fizz
+13
+14
+FizzBuzz
+16
+17
+Fizz
+19
+Buzz
+This matches the actual output. The test passes.
+
+
+Test 2:
+
+I input n = -10. Expected output was:
+-1
+-2
+Fizz
+-4
+Buzz
+Fizz
+-7
+-8
+Fizz
+Buzz
+This matches the actual output. The test passes.

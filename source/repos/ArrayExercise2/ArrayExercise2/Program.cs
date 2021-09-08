@@ -19,9 +19,9 @@ namespace ArrayExercise2
                 before += i.ToString() + ", ";
             }
             Console.WriteLine(before);
-            int[] newArray = SortArray(arr);
+            SortArray(arr);
             string sorted = "After sort: ";
-            foreach(int i in newArray)
+            foreach (int i in arr)
             {
                 sorted += i.ToString() + ", ";
             }
@@ -30,7 +30,6 @@ namespace ArrayExercise2
 
         static int[] SortArray (int[] arr)
         {
-            int[] newArray = arr;
             try
             {
                 int i = arr[1];
@@ -44,16 +43,16 @@ namespace ArrayExercise2
                 clean = true; // prime to assume it is sorted
                 for (int i = 0; i < arr.Length - 1; i++)
                 {
-                    if (newArray[i] < newArray[i + 1]) // flips the values in the 2 slots if the 2nd int is greater than the first
+                    if (arr[i] < arr[i + 1]) // flips the values in the 2 slots if the 2nd int is greater than the first
                     {
-                        int temp = newArray[i];
-                        newArray[i] = newArray[i + 1];
-                        newArray[i + 1] = temp;
+                        int temp = arr[i];
+                        arr[i] = arr[i + 1];
+                        arr[i + 1] = temp;
                         clean = false; // reassigns to not sorted
                     }
                 }
             }
-            return newArray;
+            return arr;
         }
     }
 }
