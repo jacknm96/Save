@@ -6,17 +6,21 @@ namespace Fibonacci
     {
         static void Main(string[] args)
         {
-            WriteFibonacci(13); // input value equals how many elements of Fibonacci
+            Console.WriteLine("How many digits of Fibonacci would you like?");
+            int a;
+            string s = Console.ReadLine();
+            while (!int.TryParse(s, out a) || a <= 0)
+            {
+                Console.WriteLine("Please give a positive integer.");
+                s = Console.ReadLine();
+            }
+            WriteFibonacci(a); // input value equals how many elements of Fibonacci
             Console.ReadLine();
         }
 
         static void WriteFibonacci(int n)
         {
-            if (n <= 0) // cannot have a negative amount of ints to add
-            {
-                Console.WriteLine("Please give a positive integer for amount of units of Fibonacci");
-            }
-            else if (n == 1) // 1 digit of Fibonacci will always be 0
+            if (n == 1) // 1 digit of Fibonacci will always be 0
             {
                 Console.WriteLine("0");
             }

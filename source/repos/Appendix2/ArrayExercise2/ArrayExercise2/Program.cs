@@ -8,10 +8,27 @@ namespace ArrayExercise2
 
         static void Main(string[] args)
         {
-            int[] arr = new int[random.Next(1, 10)];
-            for (int i = 0; i < arr.Length; i++) // creates an array of random numbers from 1 to 29
+            Console.WriteLine("How long would you like your array?");
+            int a;
+            string s = Console.ReadLine();
+            while (!int.TryParse(s, out a) || a <= 0)
             {
-                arr[i] = random.Next(1, 30);
+                Console.WriteLine("Please insert positive ints only please.");
+                s = Console.ReadLine();
+            }
+            Console.WriteLine();
+            int[] arr = new int[a];
+            Console.WriteLine("What is the max value in our array?");
+            s = Console.ReadLine();
+            while (!int.TryParse(s, out a) || a <= 0)
+            {
+                Console.WriteLine("Please insert positive ints only please.");
+                s = Console.ReadLine();
+            }
+            Console.WriteLine();
+            for (int i = 0; i < arr.Length; i++) // creates an array of random numbers from 1 to given number
+            {
+                arr[i] = random.Next(1, a + 1);
             }
             string before = "Before sort: ";
             foreach (int i in arr)

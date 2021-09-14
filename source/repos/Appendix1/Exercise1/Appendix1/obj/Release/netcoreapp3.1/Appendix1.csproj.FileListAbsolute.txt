@@ -8,3 +8,4 @@ C:\Users\s219010\source\repos\Appendix1\Exercise1\Appendix1\obj\Release\netcorea
 C:\Users\s219010\source\repos\Appendix1\Exercise1\Appendix1\obj\Release\netcoreapp3.1\Appendix1.AssemblyInfo.cs
 C:\Users\s219010\source\repos\Appendix1\Exercise1\Appendix1\obj\Release\netcoreapp3.1\Appendix1.dll
 C:\Users\s219010\source\repos\Appendix1\Exercise1\Appendix1\obj\Release\netcoreapp3.1\Appendix1.pdb
+C:\Users\s219010\source\repos\Appendix1\Exercise1\Appendix1\obj\Release\netcoreapp3.1\Appendix1.csprojAssemblyReference.cache

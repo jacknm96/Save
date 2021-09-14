@@ -6,7 +6,16 @@ namespace Example3
     {
         static void Main(string[] args)
         {
-            FindMultiples(-10);
+            Console.WriteLine("What number would you like to count to?");
+            int a;
+            string s = Console.ReadLine();
+            while (!int.TryParse(s, out a))
+            {
+                Console.WriteLine("Please insert ints only please.");
+                s = Console.ReadLine();
+            }
+            Console.WriteLine();
+            FindMultiples(a);
             Console.ReadLine();
         }
 
