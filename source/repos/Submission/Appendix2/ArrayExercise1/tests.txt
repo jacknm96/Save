@@ -1,0 +1,8 @@
+Test 1
+
+The input was 10, 13, 2, 13, 23, 17, 8, 16, 28, 26. THe expected output was 156, which was the actual output. Test passes
+
+
+Test 2
+
+THe input was 11, 21, 3, 6, 9, 5, 21, 20, 16, 23. The expected output was 135, which was the actual output. Test passes.

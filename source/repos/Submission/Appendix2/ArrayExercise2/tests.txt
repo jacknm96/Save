@@ -1,0 +1,8 @@
+Test 1
+
+The input was 9, 14, 10, 26, 26. The expected output was 26, 26, 14, 10, 9. THe actual output matches. Test passes.
+
+
+Test 2
+
+The input was 18, 14, 12, 20. The expected output was 20, 18, 14, 12. The actual putput matches. Test passes.

@@ -1,0 +1,86 @@
+Test 1
+
+Input was:
+13
+spillway
+fishmonger
+bankbook
+eyesight
+wheelhouse
+keyword
+pinup
+uppercut
+washbowl
+deadend
+coffemaker
+houseboat
+typewriter
+
+Expected output was:
+bankbook
+coffemaker
+deadend
+eyesight
+fishmonger
+houseboat
+keyword
+pinup
+spillway
+typewriter
+uppercut
+washbowl
+wheelhouse
+
+Actual output matches. Test passes.
+
+
+
+
+Test 2
+
+Input was:
+20
+encouraging
+search
+queue
+toadstool
+oranges
+watch
+bleach
+roasted
+deceive
+toad
+shrill
+receptive
+grease
+cruel
+oafish
+dazzling
+song
+scandalous
+testy
+flippant
+
+Expected output was:
+bleach
+cruel
+dazzling
+deceive
+encouraging
+flippant
+grease
+oafish
+oranges
+queue
+receptive
+roasted
+scandalous
+search
+shrill
+song
+testy
+toad
+toadstool
+watch
+
+Actual output matches. Test passes

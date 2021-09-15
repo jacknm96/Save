@@ -1,0 +1,11 @@
+C:\Users\s219010\source\repos\Appendix2\ArrayExercise1\ArrayExercise1\bin\Release\netcoreapp3.1\ArrayExercise1.exe
+C:\Users\s219010\source\repos\Appendix2\ArrayExercise1\ArrayExercise1\bin\Release\netcoreapp3.1\ArrayExercise1.deps.json
+C:\Users\s219010\source\repos\Appendix2\ArrayExercise1\ArrayExercise1\bin\Release\netcoreapp3.1\ArrayExercise1.runtimeconfig.json
+C:\Users\s219010\source\repos\Appendix2\ArrayExercise1\ArrayExercise1\bin\Release\netcoreapp3.1\ArrayExercise1.runtimeconfig.dev.json
+C:\Users\s219010\source\repos\Appendix2\ArrayExercise1\ArrayExercise1\bin\Release\netcoreapp3.1\ArrayExercise1.dll
+C:\Users\s219010\source\repos\Appendix2\ArrayExercise1\ArrayExercise1\bin\Release\netcoreapp3.1\ArrayExercise1.pdb
+C:\Users\s219010\source\repos\Appendix2\ArrayExercise1\ArrayExercise1\obj\Release\netcoreapp3.1\ArrayExercise1.AssemblyInfoInputs.cache
+C:\Users\s219010\source\repos\Appendix2\ArrayExercise1\ArrayExercise1\obj\Release\netcoreapp3.1\ArrayExercise1.AssemblyInfo.cs
+C:\Users\s219010\source\repos\Appendix2\ArrayExercise1\ArrayExercise1\obj\Release\netcoreapp3.1\ArrayExercise1.dll
+C:\Users\s219010\source\repos\Appendix2\ArrayExercise1\ArrayExercise1\obj\Release\netcoreapp3.1\ArrayExercise1.pdb
+C:\Users\s219010\source\repos\Appendix2\ArrayExercise1\ArrayExercise1\obj\Release\netcoreapp3.1\ArrayExercise1.csprojAssemblyReference.cache

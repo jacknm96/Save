@@ -1,0 +1,7 @@
+Test 1
+
+I asked for 5 digits of fibonacci. The expected outcome is 0, 1, 1, 2, 3. The actual outcome was the same. Test passes
+
+
+Test 2
+I asked for 13 digits of fibonacci. The expected outcome is 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144. THe actual outcome was the same. Test passes.

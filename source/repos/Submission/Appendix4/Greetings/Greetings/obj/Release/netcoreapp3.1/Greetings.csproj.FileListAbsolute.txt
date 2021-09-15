@@ -1,0 +1,10 @@
+C:\Users\s219010\source\repos\Appendix4\Greetings\Greetings\bin\Release\netcoreapp3.1\Greetings.exe
+C:\Users\s219010\source\repos\Appendix4\Greetings\Greetings\bin\Release\netcoreapp3.1\Greetings.deps.json
+C:\Users\s219010\source\repos\Appendix4\Greetings\Greetings\bin\Release\netcoreapp3.1\Greetings.runtimeconfig.json
+C:\Users\s219010\source\repos\Appendix4\Greetings\Greetings\bin\Release\netcoreapp3.1\Greetings.runtimeconfig.dev.json
+C:\Users\s219010\source\repos\Appendix4\Greetings\Greetings\bin\Release\netcoreapp3.1\Greetings.dll
+C:\Users\s219010\source\repos\Appendix4\Greetings\Greetings\bin\Release\netcoreapp3.1\Greetings.pdb
+C:\Users\s219010\source\repos\Appendix4\Greetings\Greetings\obj\Release\netcoreapp3.1\Greetings.AssemblyInfoInputs.cache
+C:\Users\s219010\source\repos\Appendix4\Greetings\Greetings\obj\Release\netcoreapp3.1\Greetings.AssemblyInfo.cs
+C:\Users\s219010\source\repos\Appendix4\Greetings\Greetings\obj\Release\netcoreapp3.1\Greetings.dll
+C:\Users\s219010\source\repos\Appendix4\Greetings\Greetings\obj\Release\netcoreapp3.1\Greetings.pdb

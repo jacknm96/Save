@@ -1,0 +1,12 @@
+Test 1:
+
+my input was 1.1 and 3.89
+
+the expected outcome was 4, which was the actual output. Test passes
+
+
+Test 2:
+
+my input was  38.36 and 78.22
+
+the expected outcome was 116, which was the actual output. Test passes
