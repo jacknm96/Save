@@ -214,4 +214,39 @@ namespace Vectors
             return new Vector3(lhs.x * mag, lhs.y * mag, lhs.z * mag);
         }
     }
+
+    public class Matrix3
+    {
+        Vector3 x;
+        Vector3 y;
+        Vector3 z;
+
+        public Matrix3()
+        {
+            x = new Vector3(1, 0, 0);
+            y = new Vector3(0, 1, 0);
+            z = new Vector3(0, 0, 1);
+        }
+
+        public Matrix3(Vector3 first, Vector3 second, Vector3 third)
+        {
+            x = first;
+            y = second;
+            z = third;
+        }
+
+        public static Vector3 operator *(Matrix3 m, Vector3 v)
+        {
+            return new Vector3(v.x * m.x.x + v.x * m.x.y + v.x * m.x.z, 
+                v.y * m.y.x + v.y * m.y.y + v.y * m.y.z, 
+                v.z * m.z.x + v.z * m.z.y + v.z * m.z.z);
+        }
+
+        public static Matrix3 operator *(Matrix3 m1, Matrix3 m2)
+        {
+            return new Matrix3(new Vector3(m1.x.x * m2.x.x + m1.y.x * m2.x.y + m1.z.x * m2.x.z, m1.x.y * m2.x.x + m1.y.y * m2.x.y + m1.z.y * m2.x.z, m1.x.z * m2.x.x + m1.y.z * m2.x.y + m1.z.z * m2.x.z),
+                new Vector3(m1.x.x * m2.y.x + m1.y.x * m2.y.y + m1.z.x * m2.y.z, m1.x.y * m2.y.x + m1.y.y * m2.y.y + m1.z.y * m2.y.z, m1.x.z * m2.y.x + m1.y.z * m2.y.y + m1.z.z * m2.y.z),
+                new Vector3(m1.x.x * m2.z.x + m1.y.x * m2.z.y + m1.z.x * m2.z.z, m1.x.y * m2.z.x + m1.y.y * m2.z.y + m1.z.y * m2.z.z, m1.x.z * m2.z.x + m1.y.z * m2.z.y + m1.z.z * m2.z.z));
+        }
+    }
 }
