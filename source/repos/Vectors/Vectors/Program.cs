@@ -228,6 +228,21 @@ namespace Vectors
             Console.WriteLine(col1.z.ToString() + " " + col2.z.ToString() + " " + col3.z.ToString());
         }
 
+        public Matrix3 setRotateX(float a)
+        {
+            return this * new Matrix3(new Vector3(1, 0, 0), new Vector3(0, MathF.Cos(a), -MathF.Sin(a)), new Vector3(0, MathF.Sin(a), MathF.Cos(a)));
+        }
+
+        public Matrix3 setRotateY(float a)
+        {
+            return this * new Matrix3(new Vector3(MathF.Cos(a), 0, MathF.Sin(a)), new Vector3(0, 1, 0), new Vector3(-MathF.Sin(a), 0, MathF.Cos(a)));
+        }
+
+        public Matrix3 setRotateZ(float a)
+        {
+            return this * new Matrix3(new Vector3(MathF.Cos(a), -MathF.Sin(a), 0), new Vector3(MathF.Sin(a), MathF.Cos(a), 0), new Vector3(0, 0, 1));
+        }
+
         // vector transformation
         public static Vector3 operator *(Matrix3 m, Vector3 v)
         {
