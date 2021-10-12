@@ -6,6 +6,7 @@ namespace Vectors
     {
         static void Main(string[] args)
         {
+            
             Vector4 a = new Vector4(2, 6, 7, 3);
             Vector4 b = new Vector4(5, 4, 3, 7);
             Vector4 c = new Vector4(1, 9, 8, 12);
@@ -16,6 +17,7 @@ namespace Vectors
             Vector4 e = m1 * a;
             m3.WriteMatrix();
             e.WriteVector();
+            
         }
     }
 
@@ -55,7 +57,7 @@ namespace Vectors
         // returns the length of the vector
         public float Magnitude()
         {
-            return MathF.Sqrt(x * x + y * y + z * z);
+            return (float)Math.Sqrt(x * x + y * y + z * z);
         }
 
         // dot product of this vector and another vector
@@ -146,7 +148,7 @@ namespace Vectors
         // returns the length of the vector
         public float Magnitude()
         {
-            return MathF.Sqrt(x * x + y * y + z * z + w * w);
+            return (float)Math.Sqrt(x * x + y * y + z * z + w * w);
         }
 
         // returns the dot product of this vector and another
@@ -230,17 +232,17 @@ namespace Vectors
 
         public Matrix3 setRotateX(float a)
         {
-            return this * new Matrix3(new Vector3(1, 0, 0), new Vector3(0, MathF.Cos(a), -MathF.Sin(a)), new Vector3(0, MathF.Sin(a), MathF.Cos(a)));
+            return this * new Matrix3(new Vector3(1, 0, 0), new Vector3(0, (float)Math.Cos(a), -(float)Math.Sin(a)), new Vector3(0, (float)Math.Sin(a), (float)Math.Cos(a)));
         }
 
         public Matrix3 setRotateY(float a)
         {
-            return this * new Matrix3(new Vector3(MathF.Cos(a), 0, MathF.Sin(a)), new Vector3(0, 1, 0), new Vector3(-MathF.Sin(a), 0, MathF.Cos(a)));
+            return this * new Matrix3(new Vector3((float)Math.Cos(a), 0, (float)Math.Sin(a)), new Vector3(0, 1, 0), new Vector3(-(float)Math.Sin(a), 0, (float)Math.Cos(a)));
         }
 
         public Matrix3 setRotateZ(float a)
         {
-            return this * new Matrix3(new Vector3(MathF.Cos(a), -MathF.Sin(a), 0), new Vector3(MathF.Sin(a), MathF.Cos(a), 0), new Vector3(0, 0, 1));
+            return this * new Matrix3(new Vector3((float)Math.Cos(a), -(float)Math.Sin(a), 0), new Vector3((float)Math.Sin(a), (float)Math.Cos(a), 0), new Vector3(0, 0, 1));
         }
 
         // vector transformation

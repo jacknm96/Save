@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Numerics;
+using System.Collections.Generic;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 
@@ -37,8 +38,7 @@ namespace RaylibStarterCS
         Rectangle sourceRec;
         Rectangle destRec;
 
-        Bullet[] bullets = new Bullet[10];
-        int numBullets = 0;
+        List<Bullet> bullets = new List<Bullet>();
 
         float m_timer = 0;
 
@@ -100,16 +100,20 @@ namespace RaylibStarterCS
             frames++;
 
             // insert game logic here 
-            if (IsKeyDown(KeyboardKey.KEY_W))
+            if (tankPosition.X >= camera.target.X + 20 && tankPosition.X <= camera.target.X + GetScreenWidth() + 20
+                    && tankPosition.Y >= camera.target.Y + 20 && tankPosition.Y <= camera.target.Y + GetScreenHeight() + 20)
             {
-                tankPosition.X -= 500.0f * deltaTime * MathF.Sin(tankRotation * MathF.PI / 180f);
-                tankPosition.Y += 500.0f * deltaTime * MathF.Cos(tankRotation * MathF.PI / 180f);
-            }
+                if (IsKeyDown(KeyboardKey.KEY_W))
+                {
+                    tankPosition.X -= 500.0f * deltaTime * MathF.Sin(tankRotation * MathF.PI / 180f);
+                    tankPosition.Y += 500.0f * deltaTime * MathF.Cos(tankRotation * MathF.PI / 180f);
+                }
 
-            if (IsKeyDown(KeyboardKey.KEY_S))
-            {
-                tankPosition.X += 500.0f * deltaTime * MathF.Sin(tankRotation * MathF.PI / 180f);
-                tankPosition.Y -= 500.0f * deltaTime * MathF.Cos(tankRotation * MathF.PI / 180f);
+                if (IsKeyDown(KeyboardKey.KEY_S))
+                {
+                    tankPosition.X += 500.0f * deltaTime * MathF.Sin(tankRotation * MathF.PI / 180f);
+                    tankPosition.Y -= 500.0f * deltaTime * MathF.Cos(tankRotation * MathF.PI / 180f);
+                }
             }
 
             if (IsKeyDown(KeyboardKey.KEY_A))
@@ -124,12 +128,27 @@ namespace RaylibStarterCS
             if (IsKeyDown(KeyboardKey.KEY_E))
                 barrelRotation += 250.0f * deltaTime;
 
-            if (IsKeyDown(KeyboardKey.KEY_SPACE))
+            if (IsKeyPressed(KeyboardKey.KEY_SPACE))
             {
-                bullets[numBullets] = new Bullet(tankRotation + barrelRotation, new Vector2(tankPosition.X + barrelHeight * MathF.Cos(tankRotation + barrelRotation), tankPosition.Y + barrelHeight * MathF.Sin(tankRotation + barrelRotation)));
-                numBullets++;
+                bullets.Add(new Bullet(tankRotation + barrelRotation,
+                    //new Vector2(tankPosition.X + barrelHeight * MathF.Cos(tankRotation + barrelRotation), tankPosition.Y + barrelHeight * MathF.Sin(tankRotation + barrelRotation))));
+                    new Vector2(-12 + tankPosition.X + tankWidth - (barrelHeight + 15) * MathF.Sin((tankRotation + barrelRotation) * MathF.PI / 180f), 
+                    tankPosition.Y + tankHeight + (barrelHeight + 15) * MathF.Cos((tankRotation + barrelRotation) * MathF.PI / 180f))));
             }
-
+            List<Bullet> toRemove = new List<Bullet>();
+            foreach (Bullet bullet in bullets)
+            {
+                bullet.UpdatePosition(deltaTime);
+                if (bullet.bulletLocation.X < camera.target.X || bullet.bulletLocation.X > camera.target.X + GetScreenWidth() 
+                    || bullet.bulletLocation.Y < camera.target.Y || bullet.bulletLocation.Y > camera.target.Y + GetScreenHeight())
+                {
+                    toRemove.Add(bullet);
+                }
+            }
+            foreach (Bullet bullet in toRemove)
+            {
+                 bullets.Remove(bullet);
+            }
             m_timer += deltaTime;
 
             // use arrow keys to move camera
@@ -181,10 +200,7 @@ namespace RaylibStarterCS
 
             foreach (Bullet bullet in bullets)
             {
-                if (bullet != null)
-                {
-                    DrawTextureEx(bullet.bulletTexture, bullet.bulletLocation, bullet.bulletRotation, 1, Color.WHITE);
-                }
+                bullet.DrawBullet();
             }
             //DrawTextureEx(barrelTexture, new Vector2(destRec.x, destRec.y), tankRotation, 1, Color.WHITE);
 
@@ -212,13 +228,34 @@ namespace RaylibStarterCS
         public Texture2D bulletTexture;
         public float bulletRotation;
         public Vector2 bulletLocation;
+        float bulletWidth;
+        float bulletHeight;
+        Rectangle sourceRecBullet;
+        Rectangle destRecBullet;
+        Vector2 bulletOrigin;
 
         public Bullet(float rotation, Vector2 position)
         {
             bullet = LoadImage("../Images/bulletYellow.png");
             bulletTexture = LoadTextureFromImage(bullet);
-            bulletRotation = rotation;
+            bulletWidth = bullet.width;
+            bulletHeight = bullet.height;
+            sourceRecBullet = new Rectangle(0f, 0f, bulletWidth, bulletHeight);
+            bulletOrigin = new Vector2(bulletWidth / 2, 0);
+            bulletRotation = rotation + 180;
             bulletLocation = position;
+        }
+
+        public void UpdatePosition(float deltaTime)
+        {
+            bulletLocation.X -= 500.0f * deltaTime * MathF.Sin((bulletRotation - 180) * MathF.PI / 180f);
+            bulletLocation.Y += 500.0f * deltaTime * MathF.Cos((bulletRotation - 180) * MathF.PI / 180f);
+            destRecBullet = new Rectangle(bulletLocation.X + bulletWidth, bulletLocation.Y, bulletWidth, bulletHeight);
+        }
+
+        public void DrawBullet()
+        {
+            DrawTexturePro(bulletTexture, sourceRecBullet, destRecBullet, bulletOrigin, bulletRotation, Color.WHITE);
         }
     }
 }
