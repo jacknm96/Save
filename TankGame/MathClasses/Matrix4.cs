@@ -28,9 +28,9 @@ namespace MathClasses
         }
 
         // takes in 16 floats to use as parameters. floats must be in column-major order
-        public Matrix4(float one, float two, float three, float four, 
-            float five, float six, float seven, float eight, 
-            float nine, float ten, float eleven, float twelve, 
+        public Matrix4(float one, float two, float three, float four,
+            float five, float six, float seven, float eight,
+            float nine, float ten, float eleven, float twelve,
             float thirteen, float fourteen, float fifteen, float sixteen)
         {
             m00 = one; m10 = five; m20 = nine; m30 = thirteen;

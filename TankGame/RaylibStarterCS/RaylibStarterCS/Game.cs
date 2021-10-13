@@ -4,6 +4,7 @@ using System.Numerics;
 using System.Collections.Generic;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
+using MathClasses;
 
 namespace RaylibStarterCS
 {
@@ -19,6 +20,7 @@ namespace RaylibStarterCS
 
         private float deltaTime = 0.005f;
 
+        #region images
         Image barrel;
         Texture2D barrelTexture;
         float barrelRotation;
@@ -30,13 +32,14 @@ namespace RaylibStarterCS
 
         Image tank;
         Texture2D tankTexture;
-        Vector3 tankPosition;
+        MathClasses.Vector3 tankPosition;
         Vector2 origin;
         float tankRotation;
         float tankWidth;
         float tankHeight;
         Rectangle sourceRec;
         Rectangle destRec;
+        #endregion
 
         List<Bullet> bullets = new List<Bullet>();
 
@@ -57,21 +60,25 @@ namespace RaylibStarterCS
             {
                 Console.WriteLine("Stopwatch high-resolution frequency: {0} ticks per second", Stopwatch.Frequency);
             }
-
+            // load textures for barrel
             barrel = LoadImage("../Images/barrelGreen.png");
             barrelTexture = LoadTextureFromImage(barrel);
             barrelWidth = barrel.width;
             barrelHeight = barrel.height;
+            sourceRecBarrel = new Rectangle(0f, 0f, barrelWidth, barrelHeight); // draw full sprite
+            barrelOrigin = new Vector2(barrelWidth / 2, 0); // want to rotate around end of sprite
 
+            // load textures for tank
             tank = LoadImage("../Images/tankBlack.png");
             tankTexture = LoadTextureFromImage(tank);
             tankWidth = tank.width;
             tankHeight = tank.height;
-            sourceRec = new Rectangle(0f, 0f, tankWidth, tankHeight);
-            sourceRecBarrel = new Rectangle(0f, 0f, barrelWidth, barrelHeight);
-            tankPosition = new Vector3(GetScreenWidth() / 2 - tankWidth, GetScreenHeight() / 2 - tankHeight, 0);
-            origin = new Vector2(tankWidth / 2, tankHeight / 2);
-            barrelOrigin = new Vector2(barrelWidth / 2, 0);
+            sourceRec = new Rectangle(0f, 0f, tankWidth, tankHeight); // draw full sprite
+            tankPosition = new MathClasses.Vector3(GetScreenWidth() / 2 - tankWidth, GetScreenHeight() / 2 - tankHeight, 0);
+            origin = new Vector2(tankWidth / 2, tankHeight / 2); // want to rotate around center of sprite
+
+            destRec = new Rectangle(tankPosition.x + tankWidth, tankPosition.y + tankHeight, tankWidth, tankHeight);
+            destRecBarrel = new Rectangle(tankPosition.x + tankWidth, tankPosition.y + tankHeight, barrelWidth, barrelHeight);
 
             SetTargetFPS(60);       // Set our game to run at 60 frames-per-second
 
@@ -100,31 +107,55 @@ namespace RaylibStarterCS
             frames++;
 
             // insert game logic here 
+            Move();
+
+            if (IsKeyPressed(KeyboardKey.KEY_SPACE))
+            {
+                ShootBullet();
+            }
+            AdjustBullets();
+            m_timer += deltaTime;
+
+            CameraControl();
+        }
+
+        void Move()
+        {
+            float xDirection = 500.0f * deltaTime * MathF.Sin(tankRotation * MathF.PI / 180f);
+            float yDirection = 500.0f * deltaTime * MathF.Cos(tankRotation * MathF.PI / 180f);
             if (IsKeyDown(KeyboardKey.KEY_W))
             {
-                tankPosition.X -= 500.0f * deltaTime * MathF.Sin(tankRotation * MathF.PI / 180f);
-                if (tankPosition.X < camera.target.X -10 || tankPosition.X > camera.target.X + GetScreenWidth() - tankHeight - 60)
+                tankPosition.x -= xDirection;
+                destRec.x -= xDirection;
+                destRecBarrel.x -= xDirection;
+                if (tankPosition.x < camera.target.X - 10 || tankPosition.x > camera.target.X + GetScreenWidth() - tankHeight - 60)
                 {
-                    camera.target.X -= 500.0f * deltaTime * MathF.Sin(tankRotation * MathF.PI / 180f);
+                    camera.target.X -= xDirection;
                 }
-                tankPosition.Y += 500.0f * deltaTime * MathF.Cos(tankRotation * MathF.PI / 180f);
-                if (tankPosition.Y < camera.target.Y -10 || tankPosition.Y > camera.target.Y + GetScreenHeight() - tankHeight - 60)
+                tankPosition.y += yDirection;
+                destRec.y += yDirection;
+                destRecBarrel.y += yDirection;
+                if (tankPosition.y < camera.target.Y - 10 || tankPosition.y > camera.target.Y + GetScreenHeight() - tankHeight - 60)
                 {
-                    camera.target.Y += 500.0f * deltaTime * MathF.Cos(tankRotation * MathF.PI / 180f);
+                    camera.target.Y += yDirection;
                 }
             }
 
             if (IsKeyDown(KeyboardKey.KEY_S))
             {
-                tankPosition.X += 500.0f * deltaTime * MathF.Sin(tankRotation * MathF.PI / 180f);
-                if (tankPosition.X < camera.target.X - 10 || tankPosition.X > camera.target.X + GetScreenWidth() - tankHeight - 60)
+                tankPosition.x += xDirection;
+                destRec.x += xDirection;
+                destRecBarrel.x += xDirection;
+                if (tankPosition.x < camera.target.X - 10 || tankPosition.x > camera.target.X + GetScreenWidth() - tankHeight - 60)
                 {
-                    camera.target.X += 500.0f * deltaTime * MathF.Sin(tankRotation * MathF.PI / 180f);
+                    camera.target.X += xDirection;
                 }
-                tankPosition.Y -= 500.0f * deltaTime * MathF.Cos(tankRotation * MathF.PI / 180f);
-                if (tankPosition.Y < camera.target.Y - 10 || tankPosition.Y > camera.target.Y + GetScreenHeight() - tankHeight - 60)
+                tankPosition.y -= yDirection;
+                destRec.y -= yDirection;
+                destRecBarrel.y -= yDirection;
+                if (tankPosition.y < camera.target.Y - 10 || tankPosition.y > camera.target.Y + GetScreenHeight() - tankHeight - 60)
                 {
-                    camera.target.Y -= 500.0f * deltaTime * MathF.Cos(tankRotation * MathF.PI / 180f);
+                    camera.target.Y -= yDirection;
                 }
             }
 
@@ -139,13 +170,17 @@ namespace RaylibStarterCS
 
             if (IsKeyDown(KeyboardKey.KEY_E))
                 barrelRotation += 250.0f * deltaTime;
+        }
 
-            if (IsKeyPressed(KeyboardKey.KEY_SPACE))
-            {
-                bullets.Add(new Bullet(tankRotation + barrelRotation,
-                    new Vector2(-12 + tankPosition.X + tankWidth - (barrelHeight + 15) * MathF.Sin((tankRotation + barrelRotation) * MathF.PI / 180f),
-                    tankPosition.Y + tankHeight + (barrelHeight + 15) * MathF.Cos((tankRotation + barrelRotation) * MathF.PI / 180f))));
-            }
+        void ShootBullet()
+        {
+            bullets.Add(new Bullet(tankRotation + barrelRotation,
+                    new Vector2(-12 + tankPosition.x + tankWidth - (barrelHeight + 15) * MathF.Sin((tankRotation + barrelRotation) * MathF.PI / 180f),
+                    tankPosition.y + tankHeight + (barrelHeight + 15) * MathF.Cos((tankRotation + barrelRotation) * MathF.PI / 180f))));
+        }
+
+        void AdjustBullets()
+        {
             List<Bullet> toRemove = new List<Bullet>();
             foreach (Bullet bullet in bullets)
             {
@@ -160,8 +195,10 @@ namespace RaylibStarterCS
             {
                 bullets.Remove(bullet);
             }
-            m_timer += deltaTime;
+        }
 
+        void CameraControl()
+        {
             // use arrow keys to move camera
             if (IsKeyDown(KeyboardKey.KEY_UP))
                 camera.target.Y += 500.0f * deltaTime;
@@ -174,10 +211,6 @@ namespace RaylibStarterCS
 
             if (IsKeyDown(KeyboardKey.KEY_RIGHT))
                 camera.target.X += 500.0f * deltaTime;
-
-            destRec = new Rectangle(tankPosition.X + tankWidth, tankPosition.Y + tankHeight, tankWidth, tankHeight);
-            destRecBarrel = new Rectangle(tankPosition.X + tankWidth, tankPosition.Y + tankHeight, barrelWidth, barrelHeight);
-
 
             // Camera zoom controls
             camera.zoom += ((float)GetMouseWheelMove() * 0.05f);

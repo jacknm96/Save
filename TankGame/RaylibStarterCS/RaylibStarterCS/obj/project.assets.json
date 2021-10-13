@@ -66,11 +66,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\s219010\\Saves\\Save\\TankGame\\RaylibStarterCS\\RaylibStarterCS.csproj",
+      "projectUniqueName": "C:\\Users\\s219010\\Save\\TankGame\\RaylibStarterCS\\RaylibStarterCS\\RaylibStarterCS.csproj",
       "projectName": "RaylibStarterCS",
-      "projectPath": "C:\\Users\\s219010\\Saves\\Save\\TankGame\\RaylibStarterCS\\RaylibStarterCS.csproj",
+      "projectPath": "C:\\Users\\s219010\\Save\\TankGame\\RaylibStarterCS\\RaylibStarterCS\\RaylibStarterCS.csproj",
       "packagesPath": "C:\\Users\\s219010\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\s219010\\Saves\\Save\\TankGame\\RaylibStarterCS\\obj\\",
+      "outputPath": "C:\\Users\\s219010\\Save\\TankGame\\RaylibStarterCS\\RaylibStarterCS\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\s219010\\AppData\\Roaming\\NuGet\\NuGet.Config",

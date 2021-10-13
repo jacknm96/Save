@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\s219010\\Saves\\Save\\TankGame\\RaylibStarterCS\\RaylibStarterCS.csproj": {}
+    "C:\\Users\\s219010\\Save\\source\\repos\\MathClasses\\MathClasses\\MathClasses.csproj": {}
   },
   "projects": {
-    "C:\\Users\\s219010\\Saves\\Save\\TankGame\\RaylibStarterCS\\RaylibStarterCS.csproj": {
+    "C:\\Users\\s219010\\Save\\source\\repos\\MathClasses\\MathClasses\\MathClasses.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\s219010\\Saves\\Save\\TankGame\\RaylibStarterCS\\RaylibStarterCS.csproj",
-        "projectName": "RaylibStarterCS",
-        "projectPath": "C:\\Users\\s219010\\Saves\\Save\\TankGame\\RaylibStarterCS\\RaylibStarterCS.csproj",
+        "projectUniqueName": "C:\\Users\\s219010\\Save\\source\\repos\\MathClasses\\MathClasses\\MathClasses.csproj",
+        "projectName": "MathClasses",
+        "projectPath": "C:\\Users\\s219010\\Save\\source\\repos\\MathClasses\\MathClasses\\MathClasses.csproj",
         "packagesPath": "C:\\Users\\s219010\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\s219010\\Saves\\Save\\TankGame\\RaylibStarterCS\\obj\\",
+        "outputPath": "C:\\Users\\s219010\\Save\\source\\repos\\MathClasses\\MathClasses\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\s219010\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -37,12 +37,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "dependencies": {
-            "Raylib-cs": {
-              "target": "Package",
-              "version": "[3.5.0, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",

@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v3.1": {
       "RaylibStarterCS/1.0.0": {
         "dependencies": {
-          "Raylib-cs": "3.5.0"
+          "Raylib-cs": "3.5.0",
+          "MathClasses": "1.0.0.0"
         },
         "runtime": {
           "RaylibStarterCS.dll": {}
@@ -48,6 +49,14 @@
             "fileVersion": "3.1.0.0"
           }
         }
+      },
+      "MathClasses/1.0.0.0": {
+        "runtime": {
+          "MathClasses.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -63,6 +72,11 @@
       "sha512": "sha512-4yIGm0ZkSjp4W9XpyY4dv20dQv9VkCXvYBL08g6pmTLL5usAHplXEedFcDOQFaE4XBud93dv0e/dyJXLOJU1HQ==",
       "path": "raylib-cs/3.5.0",
       "hashPath": "raylib-cs.3.5.0.nupkg.sha512"
+    },
+    "MathClasses/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }
