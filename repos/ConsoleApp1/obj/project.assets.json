@@ -6167,11 +6167,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\s219010\\source\\repos\\ConsoleApp1\\ConsoleApp1.csproj",
+      "projectUniqueName": "C:\\Users\\s219010\\Saves\\Save\\repos\\ConsoleApp1\\ConsoleApp1.csproj",
       "projectName": "ConsoleApp1",
-      "projectPath": "C:\\Users\\s219010\\source\\repos\\ConsoleApp1\\ConsoleApp1.csproj",
+      "projectPath": "C:\\Users\\s219010\\Saves\\Save\\repos\\ConsoleApp1\\ConsoleApp1.csproj",
       "packagesPath": "C:\\Users\\s219010\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\s219010\\source\\repos\\ConsoleApp1\\obj\\",
+      "outputPath": "C:\\Users\\s219010\\Saves\\Save\\repos\\ConsoleApp1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\s219010\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -6187,8 +6187,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\s219010\\source\\repos\\ConsoleApp2\\ConsoleApp2.csproj": {
-              "projectPath": "C:\\Users\\s219010\\source\\repos\\ConsoleApp2\\ConsoleApp2.csproj"
+            "C:\\Users\\s219010\\Saves\\Save\\repos\\ConsoleApp2\\ConsoleApp2.csproj": {
+              "projectPath": "C:\\Users\\s219010\\Saves\\Save\\repos\\ConsoleApp2\\ConsoleApp2.csproj"
             }
           }
         }
