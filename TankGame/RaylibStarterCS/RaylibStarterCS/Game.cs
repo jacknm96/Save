@@ -26,19 +26,19 @@ namespace RaylibStarterCS
         float barrelRotation;
         float barrelWidth;
         float barrelHeight;
-        Rectangle sourceRecBarrel;
-        Rectangle destRecBarrel;
-        Vector2 barrelOrigin;
+        Rectangle sourceRecBarrel; //determines how much of sprite to use in draw
+        Rectangle destRecBarrel; // determines where the sprite will be drawn
+        Vector2 barrelOrigin; // sets origin of the sprite to rotate around
 
         Image tank;
         Texture2D tankTexture;
         MathClasses.Vector3 tankPosition;
-        Vector2 origin;
+        Vector2 origin; // sets origin of the sprite to rotate around
         float tankRotation;
         float tankWidth;
         float tankHeight;
-        Rectangle sourceRec;
-        Rectangle destRec;
+        Rectangle sourceRec; //determines how much of sprite to use in draw
+        Rectangle destRec; // determines where the sprite will be drawn
         #endregion
 
         List<Bullet> bullets = new List<Bullet>();
@@ -46,6 +46,10 @@ namespace RaylibStarterCS
         float m_timer = 0;
 
         Camera2D camera;
+
+        float tankSpeed = 500f;
+        float tankRotateSpeed = 250f;
+        float turretRotateSpeed = 250f;
 
         public Game()
         {
@@ -94,19 +98,8 @@ namespace RaylibStarterCS
 
         public void Update()
         {
-            lastTime = currentTime;
-            currentTime = stopwatch.ElapsedMilliseconds;
-            deltaTime = (currentTime - lastTime) / 1000.0f;
-            timer += deltaTime;
-            if (timer >= 1)
-            {
-                fps = frames;
-                frames = 0;
-                timer -= 1;
-            }
-            frames++;
+            UpdateTime();
 
-            // insert game logic here 
             Move();
 
             if (IsKeyPressed(KeyboardKey.KEY_SPACE))
@@ -119,59 +112,95 @@ namespace RaylibStarterCS
             CameraControl();
         }
 
+        // calculates deltatime and frame data
+        void UpdateTime()
+        {
+            lastTime = currentTime;
+            currentTime = stopwatch.ElapsedMilliseconds;
+            deltaTime = (currentTime - lastTime) / 1000.0f;
+            timer += deltaTime;
+            if (timer >= 1)
+            {
+                fps = frames;
+                frames = 0;
+                timer -= 1;
+            }
+            frames++;
+        }
+
+        // moves our tank
         void Move()
         {
-            float xDirection = 500.0f * deltaTime * MathF.Sin(tankRotation * MathF.PI / 180f);
-            float yDirection = 500.0f * deltaTime * MathF.Cos(tankRotation * MathF.PI / 180f);
-            if (IsKeyDown(KeyboardKey.KEY_W))
+            float xDirection = tankSpeed * deltaTime * MathF.Sin(tankRotation * MathF.PI / 180f);
+            float yDirection = tankSpeed * deltaTime * MathF.Cos(tankRotation * MathF.PI / 180f);
+            if (IsKeyDown(KeyboardKey.KEY_W)) // move forward
             {
                 tankPosition.x -= xDirection;
                 destRec.x -= xDirection;
                 destRecBarrel.x -= xDirection;
-                if (tankPosition.x < camera.target.X - 10 || tankPosition.x > camera.target.X + GetScreenWidth() - tankHeight - 60)
+                if (tankPosition.x < camera.target.X - 10 || tankPosition.x > camera.target.X + GetScreenWidth() / camera.zoom - tankHeight - 60)
+                    // if tank is about to move offscreen, camera follows tank
                 {
                     camera.target.X -= xDirection;
                 }
                 tankPosition.y += yDirection;
                 destRec.y += yDirection;
                 destRecBarrel.y += yDirection;
-                if (tankPosition.y < camera.target.Y - 10 || tankPosition.y > camera.target.Y + GetScreenHeight() - tankHeight - 60)
+                if (tankPosition.y < camera.target.Y - 10 || tankPosition.y > camera.target.Y + GetScreenHeight() / camera.zoom - tankHeight - 60)
+                    // if tank is about to move offscreen, camera follows tank
                 {
                     camera.target.Y += yDirection;
                 }
+                // if tank offscreen and start moving, recenters camera on tank
+                if (camera.target.X > tankPosition.x + tankWidth || camera.target.X < tankPosition.x - GetScreenWidth() / camera.zoom
+                    || camera.target.Y > tankPosition.y + tankHeight || camera.target.Y < tankPosition.y - GetScreenHeight() / camera.zoom)
+                {
+                    camera.target.X = tankPosition.x - (GetScreenWidth() / camera.zoom) / 2 + tankWidth;
+                    camera.target.Y = tankPosition.y - (GetScreenHeight() / camera.zoom) / 2 + tankHeight;
+                }
             }
 
-            if (IsKeyDown(KeyboardKey.KEY_S))
+            if (IsKeyDown(KeyboardKey.KEY_S)) // move backward
             {
                 tankPosition.x += xDirection;
                 destRec.x += xDirection;
                 destRecBarrel.x += xDirection;
-                if (tankPosition.x < camera.target.X - 10 || tankPosition.x > camera.target.X + GetScreenWidth() - tankHeight - 60)
+                if (tankPosition.x < camera.target.X - 10 || tankPosition.x > camera.target.X + GetScreenWidth() / camera.zoom - tankHeight - 60)
+                    // if tank is about to move offscreen, camera follows tank
                 {
                     camera.target.X += xDirection;
                 }
                 tankPosition.y -= yDirection;
                 destRec.y -= yDirection;
                 destRecBarrel.y -= yDirection;
-                if (tankPosition.y < camera.target.Y - 10 || tankPosition.y > camera.target.Y + GetScreenHeight() - tankHeight - 60)
+                if (tankPosition.y < camera.target.Y - 10 || tankPosition.y > camera.target.Y + GetScreenHeight() / camera.zoom - tankHeight - 60)
+                    // if tank is about to move offscreen, camera follows tank
                 {
                     camera.target.Y -= yDirection;
                 }
+                // if tank offscreen and start moving, recenters camera on tank
+                if (camera.target.X > tankPosition.x + tankWidth || camera.target.X < tankPosition.x - GetScreenWidth() / camera.zoom
+                    || camera.target.Y > tankPosition.y + tankHeight || camera.target.Y < tankPosition.y - GetScreenHeight() / camera.zoom)
+                {
+                    camera.target.X = tankPosition.x - (GetScreenWidth() / camera.zoom) / 2 + tankWidth;
+                    camera.target.Y = tankPosition.y - (GetScreenHeight() / camera.zoom) / 2 + tankHeight;
+                }
             }
 
-            if (IsKeyDown(KeyboardKey.KEY_A))
-                tankRotation -= 250.0f * deltaTime;
+            if (IsKeyDown(KeyboardKey.KEY_A)) // rotate tank left
+                tankRotation -= tankRotateSpeed * deltaTime;
 
-            if (IsKeyDown(KeyboardKey.KEY_D))
-                tankRotation += 250.0f * deltaTime;
+            if (IsKeyDown(KeyboardKey.KEY_D)) // rotate tank right
+                tankRotation += tankRotateSpeed * deltaTime;
 
-            if (IsKeyDown(KeyboardKey.KEY_Q))
-                barrelRotation -= 250.0f * deltaTime;
+            if (IsKeyDown(KeyboardKey.KEY_Q)) // rotate barrel left
+                barrelRotation -= turretRotateSpeed * deltaTime;
 
-            if (IsKeyDown(KeyboardKey.KEY_E))
-                barrelRotation += 250.0f * deltaTime;
+            if (IsKeyDown(KeyboardKey.KEY_E)) // rotate barrel right
+                barrelRotation += turretRotateSpeed * deltaTime;
         }
 
+        // creates a new bullet at barrel of turret
         void ShootBullet()
         {
             bullets.Add(new Bullet(tankRotation + barrelRotation,
@@ -179,19 +208,20 @@ namespace RaylibStarterCS
                     tankPosition.y + tankHeight + (barrelHeight + 15) * MathF.Cos((tankRotation + barrelRotation) * MathF.PI / 180f))));
         }
 
+        //move bullets, and delete any bulets that go beyond screen edge
         void AdjustBullets()
         {
-            List<Bullet> toRemove = new List<Bullet>();
-            foreach (Bullet bullet in bullets)
+            List<Bullet> toRemove = new List<Bullet>(); // list of bullets that we want to delete
+            foreach (Bullet bullet in bullets) // update bullet positions
             {
                 bullet.UpdatePosition(deltaTime);
-                if (bullet.bulletLocation.X < camera.target.X || bullet.bulletLocation.X > camera.target.X + GetScreenWidth()
-                    || bullet.bulletLocation.Y < camera.target.Y || bullet.bulletLocation.Y > camera.target.Y + GetScreenHeight())
+                if (bullet.bulletLocation.X < camera.target.X || bullet.bulletLocation.X > camera.target.X + GetScreenWidth() / camera.zoom
+                    || bullet.bulletLocation.Y < camera.target.Y || bullet.bulletLocation.Y > camera.target.Y + GetScreenHeight() / camera.zoom) // detect if beyond screen edge
                 {
                     toRemove.Add(bullet);
                 }
             }
-            foreach (Bullet bullet in toRemove)
+            foreach (Bullet bullet in toRemove) // delete appropriate bullets
             {
                 bullets.Remove(bullet);
             }
@@ -226,6 +256,7 @@ namespace RaylibStarterCS
             }
         }
 
+        // draw new frame
         public void Draw()
         {
             BeginDrawing();
@@ -248,42 +279,5 @@ namespace RaylibStarterCS
             EndDrawing();
         }
 
-    }
-
-    public class Bullet
-    {
-        Image bullet;
-        public Texture2D bulletTexture;
-        public float bulletRotation;
-        public Vector2 bulletLocation;
-        float bulletWidth;
-        float bulletHeight;
-        Rectangle sourceRecBullet;
-        Rectangle destRecBullet;
-        Vector2 bulletOrigin;
-
-        public Bullet(float rotation, Vector2 position)
-        {
-            bullet = LoadImage("../Images/bulletYellow.png");
-            bulletTexture = LoadTextureFromImage(bullet);
-            bulletWidth = bullet.width;
-            bulletHeight = bullet.height;
-            sourceRecBullet = new Rectangle(0f, 0f, bulletWidth, bulletHeight);
-            bulletOrigin = new Vector2(bulletWidth / 2, 0);
-            bulletRotation = rotation + 180;
-            bulletLocation = position;
-        }
-
-        public void UpdatePosition(float deltaTime)
-        {
-            bulletLocation.X -= 500.0f * deltaTime * MathF.Sin((bulletRotation - 180) * MathF.PI / 180f);
-            bulletLocation.Y += 500.0f * deltaTime * MathF.Cos((bulletRotation - 180) * MathF.PI / 180f);
-            destRecBullet = new Rectangle(bulletLocation.X + bulletWidth, bulletLocation.Y, bulletWidth, bulletHeight);
-        }
-
-        public void DrawBullet()
-        {
-            DrawTexturePro(bulletTexture, sourceRecBullet, destRecBullet, bulletOrigin, bulletRotation, Color.WHITE);
-        }
     }
 }
