@@ -21,18 +21,9 @@ namespace RaylibStarterCS
         private float deltaTime = 0.005f;
 
         #region images
-        /*Image barrel;
         Texture2D barrelTexture;
-        float barrelRotation;
-        float barrelWidth;
-        float barrelHeight;
-        Rectangle sourceRecBarrel; //determines how much of sprite to use in draw
-        Rectangle destRecBarrel; // determines where the sprite will be drawn
-        Vector2 barrelOrigin; // sets origin of the sprite to rotate around
-        */
-        List<Turret> turrets = new List<Turret>();
-        int numTurrets;
-        PowerUp[] powerUps = new PowerUp[10];
+        Texture2D bulletTexture;
+        Texture2D powerUpTexture;
 
         Image tank;
         Texture2D tankTexture;
@@ -45,7 +36,11 @@ namespace RaylibStarterCS
         Rectangle destRec; // determines where the sprite will be drawn
         #endregion
 
-        List<Bullet> bullets = new List<Bullet>();
+        Turret turret;
+        static int powerUpCount = 20;
+        PowerUp[] powerUps = new PowerUp[powerUpCount];
+
+        bool turretDetached;
 
         float m_timer = 0;
 
@@ -68,14 +63,9 @@ namespace RaylibStarterCS
             {
                 Console.WriteLine("Stopwatch high-resolution frequency: {0} ticks per second", Stopwatch.Frequency);
             }
-            // load textures for barrel
-            /*barrel = LoadImage("../Images/barrelGreen.png");
-            barrelTexture = LoadTextureFromImage(barrel);
-            barrelWidth = barrel.width;
-            barrelHeight = barrel.height;
-            sourceRecBarrel = new Rectangle(0f, 0f, barrelWidth, barrelHeight); // draw full sprite
-            barrelOrigin = new Vector2(barrelWidth / 2, 0); // want to rotate around end of sprite
-            */
+            barrelTexture = LoadTextureFromImage(LoadImage("../Images/barrelGreen.png"));
+            bulletTexture = LoadTextureFromImage(LoadImage("../Images/bulletYellow.png"));
+            powerUpTexture = LoadTextureFromImage(LoadImage("../Images/barrelGreen_up.png"));
 
             // load textures for tank
             tank = LoadImage("../Images/tankBlack.png");
@@ -86,14 +76,13 @@ namespace RaylibStarterCS
             tankPosition = new MathClasses.Vector3(GetScreenWidth() / 2 - tankWidth, GetScreenHeight() / 2 - tankHeight, 0);
             origin = new Vector2(tankWidth / 2, tankHeight / 2); // want to rotate around center of sprite
 
-            destRec = new Rectangle(tankPosition.x + tankWidth, tankPosition.y + tankHeight, tankWidth, tankHeight);
-            //destRecBarrel = new Rectangle(tankPosition.x + tankWidth, tankPosition.y + tankHeight, barrelWidth, barrelHeight);
-            turrets.Add(new Turret(0, tankPosition.x, tankPosition.y, tankWidth, tankHeight));
-            numTurrets++;
+            destRec = new Rectangle(tankPosition.x + tankWidth, tankPosition.y + tankHeight, tankWidth, tankHeight); // where we want to draw the sprite
 
-            for (int i = 0; i < 10; i++)
+            turret = new Turret(tankPosition.x, tankPosition.y, tankWidth, tankHeight, tankRotation, barrelTexture, bulletTexture);
+
+            for (int i = 0; i < powerUpCount; i++) // spawn powerups
             {
-                powerUps[i] = new PowerUp(GetScreenWidth() * 3, GetScreenHeight() * 3);
+                powerUps[i] = new PowerUp(GetScreenWidth() * 3, GetScreenHeight() * 3, powerUpTexture); // spawn in random location
             }
 
             SetTargetFPS(60);       // Set our game to run at 60 frames-per-second
@@ -111,16 +100,27 @@ namespace RaylibStarterCS
         public void Update()
         {
             UpdateTime();
+            if (IsKeyPressed(KeyboardKey.KEY_P)) // detach/retach turret
+            {
+                turretDetached = !turretDetached;
+                if (!turretDetached) // if reattaching turret, snap back to tank position
+                {
+                    turret.SetTurretPosition(tankPosition.x, tankPosition.y, tankWidth, tankHeight);
+                }
+            }
 
             Move();
 
+            if (turretDetached) // if detached, move turret independently
+                MoveTurret();
+
             FindPowerUps();
 
-            if (IsKeyPressed(KeyboardKey.KEY_SPACE))
+            if (IsKeyPressed(KeyboardKey.KEY_SPACE) || IsKeyDown(KeyboardKey.KEY_RIGHT_ALT)) // space = single shoot, alt = rapid fire
             {
-                ShootBullet();
+                turret.ShootBullet(tankWidth, tankHeight);
             }
-            AdjustBullets();
+            turret.AdjustBullets(deltaTime, camera.target.X, camera.target.Y, camera.zoom);
             m_timer += deltaTime;
 
             CameraControl();
@@ -163,11 +163,11 @@ namespace RaylibStarterCS
                 {
                     camera.target.Y += yDirection;
                 }
+
                 // move barrels
-                foreach (Turret barrel in turrets)
-                {
-                    barrel.MoveTurret(-xDirection, yDirection);
-                }
+                if (!turretDetached)
+                    turret.MoveTurret(-xDirection, yDirection);
+
                 // if tank offscreen and start moving, recenters camera on tank
                 if (camera.target.X > tankPosition.x + tankWidth || camera.target.X < tankPosition.x - GetScreenWidth() / camera.zoom
                     || camera.target.Y > tankPosition.y + tankHeight || camera.target.Y < tankPosition.y - GetScreenHeight() / camera.zoom)
@@ -193,11 +193,11 @@ namespace RaylibStarterCS
                 {
                     camera.target.Y -= yDirection;
                 }
+
                 // move barrels
-                foreach (Turret barrel in turrets)
-                {
-                    barrel.MoveTurret(xDirection, -yDirection);
-                }
+                if (!turretDetached)
+                    turret.MoveTurret(xDirection, -yDirection);
+
                 // if tank offscreen and start moving, recenters camera on tank
                 if (camera.target.X > tankPosition.x + tankWidth || camera.target.X < tankPosition.x - GetScreenWidth() / camera.zoom
                     || camera.target.Y > tankPosition.y + tankHeight || camera.target.Y < tankPosition.y - GetScreenHeight() / camera.zoom)
@@ -207,32 +207,31 @@ namespace RaylibStarterCS
                 }
             }
 
-            if (IsKeyDown(KeyboardKey.KEY_A)) // rotate tank left
+            if (IsKeyDown(KeyboardKey.KEY_A)) // rotate tank left. if turret attached, rotate turret too
+            { 
                 tankRotation -= tankRotateSpeed * deltaTime;
+                if (!turretDetached)
+                    turret.RotateBarrels(-tankRotateSpeed * deltaTime);
+            }
 
-            if (IsKeyDown(KeyboardKey.KEY_D)) // rotate tank right
+            if (IsKeyDown(KeyboardKey.KEY_D)) // rotate tank right. if turret attached, rotate turret too
+            { 
                 tankRotation += tankRotateSpeed * deltaTime;
+                if (!turretDetached)
+                    turret.RotateBarrels(tankRotateSpeed * deltaTime);
+            }
 
-            if (IsKeyDown(KeyboardKey.KEY_Q) || IsKeyDown(KeyboardKey.KEY_N)) // rotate barrels left
-            { 
-                foreach (Turret barrel in turrets)
-                {
-                    barrel.RotateTurret(-(turretRotateSpeed * deltaTime));
-                }
-            }
-            if (IsKeyDown(KeyboardKey.KEY_E) || IsKeyDown(KeyboardKey.KEY_M)) // rotate barrels right
-            { 
-                foreach (Turret barrel in turrets)
-                {
-                    barrel.RotateTurret(turretRotateSpeed * deltaTime);
-                }
-            }
+            if (IsKeyDown(KeyboardKey.KEY_Q) || IsKeyDown(KeyboardKey.KEY_J)) // rotate barrels left
+                turret.RotateBarrels(-(turretRotateSpeed * deltaTime));
+
+            if (IsKeyDown(KeyboardKey.KEY_E) || IsKeyDown(KeyboardKey.KEY_L)) // rotate barrels right
+                turret.RotateBarrels(turretRotateSpeed * deltaTime);
         }
 
         // checks to see if we pick up any powerups
         void FindPowerUps()
         {
-            for(int i = 0; i < 10; i++) //iterate through powerups
+            for(int i = 0; i < powerUpCount; i++) //iterate through powerups
             {
                 if (powerUps[i] != null)
                 {
@@ -240,44 +239,24 @@ namespace RaylibStarterCS
                     if (MathF.Abs(location.X - tankPosition.x) < tankHeight && MathF.Abs(location.Y - tankPosition.y) < tankHeight) //checks to see if our tank is next to a powerup
                     {
                         powerUps[i] = null; // delete powerup
-                        turrets.Add(new Turret(0, tankPosition.x, tankPosition.y, tankWidth, tankHeight)); // add new turret
-                        numTurrets++;
-                        for (int j = 0; j < numTurrets; j++) //rotate turrets to be evenly spaced
-                        {
-                            turrets[j].SetRotation(360 * j / numTurrets);
-                        }
+                        turret.AddBarrel(tankWidth, tankHeight);
                     }
                 }
             }
         }
 
-        // creates a new bullet at each barrel of tank
-        void ShootBullet()
+        // if turret detached, I and K keys move turret
+        void MoveTurret()
         {
-            foreach(Turret barrel in turrets) // fire a bullet from each barrel
+            float xDirection = tankSpeed * deltaTime * MathF.Sin(turret.GetRotation() * MathF.PI / 180f);
+            float yDirection = tankSpeed * deltaTime * MathF.Cos(turret.GetRotation() * MathF.PI / 180f);
+            if (IsKeyDown(KeyboardKey.KEY_I))
             {
-                bullets.Add(new Bullet(tankRotation + barrel.GetRotation(),
-                    new Vector2(-12 + tankPosition.x + tankWidth - (barrel.BarrelHeight() + 15) * MathF.Sin((tankRotation + barrel.GetRotation()) * MathF.PI / 180f),
-                    tankPosition.y + tankHeight + (barrel.BarrelHeight() + 15) * MathF.Cos((tankRotation + barrel.GetRotation()) * MathF.PI / 180f))));
+                turret.MoveTurret(-xDirection, yDirection);
             }
-        }
-
-        //move bullets, and delete any bulets that go beyond screen edge
-        void AdjustBullets()
-        {
-            List<Bullet> toRemove = new List<Bullet>(); // list of bullets that we want to delete
-            foreach (Bullet bullet in bullets) // update bullet positions
+            if (IsKeyDown(KeyboardKey.KEY_K))
             {
-                bullet.UpdatePosition(deltaTime);
-                if (bullet.bulletLocation.X < camera.target.X || bullet.bulletLocation.X > camera.target.X + GetScreenWidth() / camera.zoom
-                    || bullet.bulletLocation.Y < camera.target.Y || bullet.bulletLocation.Y > camera.target.Y + GetScreenHeight() / camera.zoom) // detect if beyond screen edge
-                {
-                    toRemove.Add(bullet);
-                }
-            }
-            foreach (Bullet bullet in toRemove) // delete appropriate bullets
-            {
-                bullets.Remove(bullet);
+                turret.MoveTurret(xDirection, -yDirection);
             }
         }
 
@@ -285,10 +264,10 @@ namespace RaylibStarterCS
         {
             // use arrow keys to move camera
             if (IsKeyDown(KeyboardKey.KEY_UP))
-                camera.target.Y += 500.0f * deltaTime;
+                camera.target.Y -= 500.0f * deltaTime;
 
             if (IsKeyDown(KeyboardKey.KEY_DOWN))
-                camera.target.Y -= 500.0f * deltaTime;
+                camera.target.Y += 500.0f * deltaTime;
 
             if (IsKeyDown(KeyboardKey.KEY_LEFT))
                 camera.target.X -= 500.0f * deltaTime;
@@ -319,17 +298,17 @@ namespace RaylibStarterCS
             ClearBackground(Color.ORANGE);
             DrawTexturePro(tankTexture, sourceRec, destRec, origin, tankRotation, Color.WHITE);
 
-            foreach(Turret barrel in turrets)
+            foreach(Barrel barrel in turret.GetChildren()) // draw each barrel
             {
-                DrawTexturePro(barrel.GetTexture(), barrel.GetSourceRectangle(), barrel.GetDestRectangle(), barrel.GetOrigin(), barrel.GetRotation() + tankRotation, Color.WHITE);
+                DrawTexturePro(barrel.GetTexture(), barrel.GetSourceRectangle(), barrel.GetDestRectangle(), barrel.GetOrigin(), barrel.GetRotation(), Color.WHITE);
             }
 
-            foreach (Bullet bullet in bullets)
+            foreach (Bullet bullet in turret.GetBullets()) // draw each bullet
             {
                 bullet.DrawBullet();
             }
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < powerUpCount; i++) // draw powerups
             {
                 if (powerUps[i] != null)
                     DrawTextureEx(powerUps[i].GetTexture(), powerUps[i].GetPosition(), 0, 1, Color.WHITE);

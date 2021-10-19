@@ -7,7 +7,6 @@ namespace RaylibStarterCS
 {
     public class Bullet
     {
-        Image bullet;
         public Texture2D bulletTexture;
         public float bulletRotation;
         public Vector2 bulletLocation;
@@ -18,12 +17,11 @@ namespace RaylibStarterCS
         Vector2 bulletOrigin; // sets origin of the sprite to rotate around
         float bulletSpeed = 500f;
 
-        public Bullet(float rotation, Vector2 position)
+        public Bullet(float rotation, Vector2 position, Texture2D texture)
         {
-            bullet = LoadImage("../Images/bulletYellow.png");
-            bulletTexture = LoadTextureFromImage(bullet);
-            bulletWidth = bullet.width;
-            bulletHeight = bullet.height;
+            bulletTexture = texture;
+            bulletWidth = 12; // sprite width = 12
+            bulletHeight = 26; // sprite height = 26
             sourceRecBullet = new Rectangle(0f, 0f, bulletWidth, bulletHeight);
             bulletOrigin = new Vector2(bulletWidth / 2, 0);
             bulletRotation = rotation + 180; //flip sprite around, otherwise bullet is pointing at tank

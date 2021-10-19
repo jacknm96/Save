@@ -15,6 +15,7 @@ namespace MathClasses
             alpha = a;
         }
 
+        // red value
         public byte red
         {
             get
@@ -27,6 +28,7 @@ namespace MathClasses
             }
         }
 
+        // green value
         public byte green
         {
             get
@@ -39,6 +41,8 @@ namespace MathClasses
             }
         }
 
+
+        // blue value
         public byte blue
         {
             get
@@ -51,6 +55,7 @@ namespace MathClasses
             }
         }
 
+        // alpha value
         public byte alpha
         {
             get

@@ -1,5 +1,6 @@
 ﻿using System;
 using Raylib_cs;
+using static Raylib_cs.Raylib;
 
 namespace RaylibStarterCS
 {
@@ -9,11 +10,11 @@ namespace RaylibStarterCS
         {
             Game game = new Game();
 
-            Raylib.InitWindow(640, 480, "Hello World");
+            InitWindow(1640, 900, "Hello World");
 
             game.Init();
 
-            while (!Raylib.WindowShouldClose())
+            while (!WindowShouldClose())
             {
                 game.Update();
                 game.Draw();
@@ -21,7 +22,7 @@ namespace RaylibStarterCS
 
             game.Shutdown();
 
-            Raylib.CloseWindow();
+            CloseWindow();
         }
 	}
 }

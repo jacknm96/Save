@@ -12,15 +12,13 @@ namespace RaylibStarterCS
     {
         private static Random random = new Random();
 
-        Image powerUp;
         Texture2D powerUpTexture;
         Vector2 position;
 
-        public PowerUp(float maxX, float maxY)
+        public PowerUp(float maxX, float maxY, Texture2D texture)
         {
-            powerUp = LoadImage("../Images/barrelGreen_up.png");
-            powerUpTexture = LoadTextureFromImage(powerUp);
-            position = new Vector2((float)random.NextDouble() * maxX, (float)random.NextDouble() * maxY);
+            powerUpTexture = texture;
+            position = new Vector2((float)random.NextDouble() * maxX, (float)random.NextDouble() * maxY); // randomize position in world
         }
 
         // returns texture of the powerup

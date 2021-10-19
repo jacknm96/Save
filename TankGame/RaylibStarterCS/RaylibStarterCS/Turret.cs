@@ -10,80 +10,113 @@ namespace RaylibStarterCS
 {
     class Turret
     {
-        Image barrel;
+        List<Barrel> barrels = new List<Barrel>();
+        Vector2 position;
+        List<Bullet> bullets = new List<Bullet>();
+        int numBarrels;
+        float turretRotation;
         Texture2D barrelTexture;
-        float barrelRotation;
-        float barrelWidth;
-        float barrelHeight;
-        Rectangle sourceRecBarrel; //determines how much of sprite to use in draw
-        Rectangle destRecBarrel; // determines where the sprite will be drawn
-        Vector2 barrelOrigin; // sets origin of the sprite to rotate around
+        Texture2D bulletTexture;
 
-        public Turret (float rotation, float tankPositionX, float tankPositionY, float tankWidth, float tankHeight)
+        // initialize turret based on tank position, also needs barrel and bullet textures
+        public Turret(float tankPositionX, float tankPositionY, float tankWidth, float tankHeight, float tankRotation, Texture2D barrel, Texture2D bullet)
         {
-            barrelRotation = rotation;
-            barrel = LoadImage("../Images/barrelGreen.png");
-            barrelTexture = LoadTextureFromImage(barrel);
-            barrelWidth = barrel.width;
-            barrelHeight = barrel.height;
-            sourceRecBarrel = new Rectangle(0f, 0f, barrelWidth, barrelHeight); // draw full sprite
-            barrelOrigin = new Vector2(barrelWidth / 2, 0); // want to rotate around end of sprite
-            destRecBarrel = new Rectangle(tankPositionX + tankWidth, tankPositionY + tankHeight, barrelWidth, barrelHeight);
+            position = new Vector2(tankPositionX, tankPositionY);
+            barrelTexture = barrel;
+            bulletTexture = bullet;
+            barrels.Add(new Barrel(tankRotation, tankPositionX, tankPositionY, tankWidth, tankHeight, barrelTexture)); // initialize starting barrel
+            numBarrels++;
         }
 
-        // moves turret in given x and y directions
+        // rotate barrels by given amount
+        public void RotateBarrels(float rotation)
+        {
+            turretRotation += rotation;
+            foreach(Barrel barrel in barrels)
+            {
+                barrel.RotateBarrel(rotation);
+            }
+        }
+
+        // spawn new barrel. reposition all barrels to be evenly spaced around turret
+        public void AddBarrel(float tankWidth, float tankHeight)
+        {
+            barrels.Add(new Barrel(0, position.X, position.Y, tankWidth, tankHeight, barrelTexture)); // add new barrel
+            numBarrels++;
+            for (int j = 0; j < numBarrels; j++) //rotate barrels to be evenly spaced
+            {
+                barrels[j].SetRotation((360 * j / numBarrels) + turretRotation);
+            }
+        }
+
+        // move turret, and barrels, in given direction
         public void MoveTurret(float xDirection, float yDirection)
         {
-            destRecBarrel.x += xDirection;
-            destRecBarrel.y += yDirection;
+            position.X += xDirection;
+            position.Y += yDirection;
+            foreach (Barrel barrel in barrels)
+            {
+                barrel.MoveBarrel(xDirection, yDirection);
+            }
         }
 
-        // rotates turret a given amount
-        public void RotateTurret(float rotation)
+        // telport turret, and barrels, to give position
+        public void SetTurretPosition(float x, float y, float tankWidth, float tankHeight)
         {
-            barrelRotation += rotation;
+            position.X = x;
+            position.Y = y;
+            foreach (Barrel barrel in barrels)
+            {
+                barrel.SetPosition(x, y, tankWidth, tankHeight);
+            }
         }
 
-        // sets the turret to a given rotation
-        public void SetRotation(float rotation)
+        // creates a new bullet at each barrel of tank
+        public void ShootBullet(float tankWidth, float tankHeight)
         {
-            barrelRotation = rotation;
+            foreach (Barrel barrel in barrels) // fire a bullet from each barrel
+            {
+                bullets.Add(new Bullet(barrel.GetRotation(),
+                    new Vector2(-12 + position.X + tankWidth - (barrel.BarrelHeight() + 15) * MathF.Sin(barrel.GetRotation() * MathF.PI / 180f),
+                    position.Y + tankHeight + (barrel.BarrelHeight() + 15) * MathF.Cos(barrel.GetRotation() * MathF.PI / 180f)), bulletTexture));
+            }
         }
 
-        //returns the rotation of the turret
+        // move bullets, and delete any bulets that go beyond screen edge
+        public void AdjustBullets(float deltaTime, float cameraX, float cameraY, float cameraZoom)
+        {
+            List<Bullet> toRemove = new List<Bullet>(); // list of bullets that we want to delete
+            foreach (Bullet bullet in bullets) // update bullet positions
+            {
+                bullet.UpdatePosition(deltaTime);
+                if (bullet.bulletLocation.X < cameraX || bullet.bulletLocation.X > cameraX + GetScreenWidth() / cameraZoom
+                    || bullet.bulletLocation.Y < cameraY || bullet.bulletLocation.Y > cameraY + GetScreenHeight() / cameraZoom) // detect if beyond screen edge
+                {
+                    toRemove.Add(bullet);
+                }
+            }
+            foreach (Bullet bullet in toRemove) // delete appropriate bullets
+            {
+                bullets.Remove(bullet);
+            }
+        }
+
+        // returns all barrels
+        public List<Barrel> GetChildren()
+        {
+            return barrels;
+        }
+
+        // returns all bullets
+        public List<Bullet> GetBullets()
+        {
+            return bullets;
+        }
+
+        // returns current rotation of the turret
         public float GetRotation()
         {
-            return barrelRotation;
-        }
-
-        // returns the length of the turret
-        public float BarrelHeight()
-        {
-            return barrelHeight;
-        }
-
-        // returns the texture of the turret
-        public Texture2D GetTexture()
-        {
-            return barrelTexture;
-        }
-
-        // returns the source rectangle
-        public Rectangle GetSourceRectangle()
-        {
-            return sourceRecBarrel;
-        }
-
-        // returns the destination rectangle
-        public Rectangle GetDestRectangle()
-        {
-            return destRecBarrel;
-        }
-
-        // returns the origin of the turret
-        public Vector2 GetOrigin()
-        {
-            return barrelOrigin;
+            return turretRotation;
         }
     }
 }
