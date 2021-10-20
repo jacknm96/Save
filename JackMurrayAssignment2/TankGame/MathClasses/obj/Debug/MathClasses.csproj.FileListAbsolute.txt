@@ -1,0 +1,6 @@
+C:\Users\s219010\Desktop\C# Unit Test - Student Copy (Structs)\MathClasses\bin\Debug\MathClasses.pdb
+C:\Users\s219010\Desktop\C# Unit Test - Student Copy (Structs)\MathClasses\obj\Debug\MathClasses.csprojAssemblyReference.cache
+C:\Users\s219010\Desktop\C# Unit Test - Student Copy (Structs)\MathClasses\obj\Debug\MathClasses.pdb
+C:\Users\s219010\Desktop\C# Unit Test - Student Copy (Structs)\MathClasses\bin\Debug\MathClasses.dll.config
+C:\Users\s219010\Desktop\C# Unit Test - Student Copy (Structs)\MathClasses\bin\Debug\MathClasses.dll
+C:\Users\s219010\Desktop\C# Unit Test - Student Copy (Structs)\MathClasses\obj\Debug\MathClasses.dll

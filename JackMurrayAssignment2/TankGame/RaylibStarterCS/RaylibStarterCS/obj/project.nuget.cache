@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "B24Cqlzdl2Pbp9eZkLswIXFYA0ACnkAtdp5U8ak76Mx/ZMf0u0/PrprLHDbXMtgqYk7IPWsyJxEjwNetrqDNbw==",
+  "success": true,
+  "projectFilePath": "D:\\Sync\\AIELaptop\\AIE\\2021\\Content\\MathsForGames\\Assessment Briefs and Unit Tests\\RaylibStarterCS\\RaylibStarterCS\\RaylibStarterCS.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\samc\\.nuget\\packages\\raylib-cs\\3.5.0\\raylib-cs.3.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
