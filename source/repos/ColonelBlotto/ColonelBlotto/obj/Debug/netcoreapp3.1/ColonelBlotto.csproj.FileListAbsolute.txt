@@ -1,0 +1,11 @@
+C:\Users\s219010\source\repos\ColonelBlotto\ColonelBlotto\bin\Debug\netcoreapp3.1\ColonelBlotto.exe
+C:\Users\s219010\source\repos\ColonelBlotto\ColonelBlotto\bin\Debug\netcoreapp3.1\ColonelBlotto.deps.json
+C:\Users\s219010\source\repos\ColonelBlotto\ColonelBlotto\bin\Debug\netcoreapp3.1\ColonelBlotto.runtimeconfig.json
+C:\Users\s219010\source\repos\ColonelBlotto\ColonelBlotto\bin\Debug\netcoreapp3.1\ColonelBlotto.runtimeconfig.dev.json
+C:\Users\s219010\source\repos\ColonelBlotto\ColonelBlotto\bin\Debug\netcoreapp3.1\ColonelBlotto.dll
+C:\Users\s219010\source\repos\ColonelBlotto\ColonelBlotto\bin\Debug\netcoreapp3.1\ColonelBlotto.pdb
+C:\Users\s219010\source\repos\ColonelBlotto\ColonelBlotto\obj\Debug\netcoreapp3.1\ColonelBlotto.csprojAssemblyReference.cache
+C:\Users\s219010\source\repos\ColonelBlotto\ColonelBlotto\obj\Debug\netcoreapp3.1\ColonelBlotto.AssemblyInfoInputs.cache
+C:\Users\s219010\source\repos\ColonelBlotto\ColonelBlotto\obj\Debug\netcoreapp3.1\ColonelBlotto.AssemblyInfo.cs
+C:\Users\s219010\source\repos\ColonelBlotto\ColonelBlotto\obj\Debug\netcoreapp3.1\ColonelBlotto.dll
+C:\Users\s219010\source\repos\ColonelBlotto\ColonelBlotto\obj\Debug\netcoreapp3.1\ColonelBlotto.pdb
