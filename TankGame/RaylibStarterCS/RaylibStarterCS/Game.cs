@@ -4,7 +4,7 @@ using System.Numerics;
 using System.Collections.Generic;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using MathClasses;
+//using MathClasses;
 
 namespace RaylibStarterCS
 {
