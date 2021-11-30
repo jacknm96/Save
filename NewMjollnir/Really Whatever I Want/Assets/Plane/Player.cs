@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     Quaternion baseRotation;
     [SerializeField] InputActionReference move;
     [SerializeField] float speed;
+    [SerializeField] Obstacle prefab;
 
     [SerializeField] WallCollider topCollider;
     [SerializeField] WallCollider leftCollider;
@@ -28,14 +29,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (direction.magnitude > 0.1f)
-        {
-            rb.velocity = direction * speed;
-        } else
-        {
-            rb.velocity = Vector2.zero;
-            transform.rotation = baseRotation;
-        }
+        
     }
 
     private void FixedUpdate()
@@ -56,6 +50,15 @@ public class Player : MonoBehaviour
         {
             direction.x = 0;
         }
+        if (direction.magnitude > 0.1f)
+        {
+            rb.velocity = direction * speed;
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
+            transform.rotation = baseRotation;
+        }
     }
 
     private void OnMove(InputValue value)
@@ -63,5 +66,11 @@ public class Player : MonoBehaviour
         transform.rotation = baseRotation;
         direction = value.Get<Vector2>();
         transform.Rotate(new Vector3(-direction.y * 30, direction.x * 30, 0));
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Collision");
+        ObjectPool.RecycleAll(prefab);
     }
 }

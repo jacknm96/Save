@@ -8,7 +8,7 @@ public class Obstacle : MonoBehaviour
     Rigidbody rb;
     [SerializeField] float speed;
 
-    private void Start()
+    private void OnEnable()
     {
         rb = GetComponent<Rigidbody>();
         //transform.position.Set(position.x, position.y, 0);
@@ -19,8 +19,13 @@ public class Obstacle : MonoBehaviour
     {
         if (transform.position.z < -5)
         {
-            GameObject.Destroy(gameObject);
+            Delete();
         }
+    }
+
+    public void Delete()
+    {
+        ObjectPool.Recycle(this);
     }
 
     public Obstacle(Vector2 position)
