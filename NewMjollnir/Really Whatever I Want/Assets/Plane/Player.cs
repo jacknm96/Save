@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
@@ -9,12 +10,12 @@ public class Player : MonoBehaviour
     Rigidbody rb;
     Vector2 direction;
     Vector3 startPos;
-    Quaternion baseRotation;
-    Coroutine rotateSide;
-    Coroutine rotateFront;
     [SerializeField] float rotateSpeed;
+    [SerializeField] Image boost;
+    float stamina;
+    float maxStamina = 100;
     bool lost;
-    [SerializeField] InputActionReference move;
+    bool isBoosting;
     [SerializeField] float speed;
     [SerializeField] Obstacle prefab;
     [SerializeField] GameObject loseScreen;
@@ -31,14 +32,23 @@ public class Player : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        baseRotation = transform.rotation;
         startPos = transform.position;
+        stamina = 100;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        transform.rotation = Quaternion.LookRotation((looker.transform.position - transform.position).normalized);
+        if (IsMoving())
+        {
+            StopAllCoroutines();
+        }
+        else
+        {
+            StartCoroutine(Reposition());
+        }
+        boost.fillAmount = stamina / maxStamina;
     }
 
     private void FixedUpdate()
@@ -62,23 +72,38 @@ public class Player : MonoBehaviour
         if (direction.magnitude > 0.1f)
         {
             rb.velocity = direction * speed;
-            //rotateSide = StartCoroutine(RotateSide());
         }
         else
         {
             rb.velocity = Vector2.zero;
-            //transform.rotation = baseRotation;
-            //rotateFront = StartCoroutine(RotateForward());
         }
+        if (isBoosting)
+        {
+            stamina -= 1;
+            if (stamina <= 0)
+            {
+                isBoosting = false;
+            }
+            rb.velocity *= 1.5f;
+        }
+    }
+
+    public bool IsMoving()
+    {
+        return rb.velocity.magnitude > 0;
     }
 
     private void OnMove(InputValue value)
     {
         if (!lost)
         {
-            transform.rotation = baseRotation;
             direction = value.Get<Vector2>();
         }
+    }
+
+    private void OnJump(InputValue button)
+    {
+        isBoosting = button.Get<float>() > 0.5 && stamina > 0;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -114,23 +139,14 @@ public class Player : MonoBehaviour
         rightCollider.hitWall = false;
     }
 
-    /*IEnumerator RotateSide()
+    IEnumerator Reposition()
     {
         float startTime = Time.time;
-        while (Time.time - startTime < 1)
+        while (true)
         {
-            transform.Rotate(new Vector3(Mathf.Lerp(baseRotation.x, -direction.y * 10, (Time.time - startTime) / rotateSpeed), Mathf.Lerp(baseRotation.y, direction.x * 10, (Time.time - startTime) / rotateSpeed), 0));
+            float delta = (Time.time - startTime) * Time.deltaTime * 0.1f;
+            transform.position = new Vector3(Mathf.Lerp(transform.position.x, looker.transform.position.x, delta), Mathf.Lerp(transform.position.y, looker.transform.position.y, delta), transform.position.z);
             yield return null;
         }
     }
-
-    IEnumerator RotateForward()
-    {
-        float startTime = Time.time;
-        while (Time.time - startTime < 1)
-        {
-            transform.Rotate(new Vector3(Mathf.Lerp(-direction.y * 10, baseRotation.x, (Time.time - startTime) / rotateSpeed), Mathf.Lerp(direction.x * 10, baseRotation.y, (Time.time - startTime) / rotateSpeed), 0));
-            yield return null;
-        }
-    }*/
 }
