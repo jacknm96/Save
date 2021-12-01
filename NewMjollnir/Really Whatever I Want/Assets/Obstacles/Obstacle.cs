@@ -23,6 +23,11 @@ public class Obstacle : MonoBehaviour
         }
     }
 
+    public void StopMoving()
+    {
+        rb.velocity = Vector3.zero;
+    }
+
     public void Delete()
     {
         ObjectPool.Recycle(this);

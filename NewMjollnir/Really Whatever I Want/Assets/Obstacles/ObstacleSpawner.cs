@@ -6,13 +6,12 @@ public class ObstacleSpawner : MonoBehaviour
 {
     [SerializeField] int difficulty;
     [SerializeField] GameObject prefab;
-    ObjectPool pool;
     
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
-        pool = new ObjectPool();
         StartCoroutine(Spawner());
+        ObjectPool.CreatePool(prefab, difficulty);
     }
 
     void CreateObstacles()
@@ -31,12 +30,34 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
+    public void SetDifficulty(int diff)
+    {
+        difficulty = diff;
+    }
+
+    public void StopSpawning()
+    {
+        StopAllCoroutines();
+    }
+
+    public void Restart()
+    {
+        StartCoroutine(Spawner());
+    }
+
     IEnumerator Spawner()
     {
+        float startTime = Time.time;
+        float waitTime = 5;
         while (true)
         {
             CreateObstacles();
-            yield return new WaitForSeconds(5);
+            if (Time.time - startTime > 15 && waitTime > 2)
+            {
+                waitTime -= 0.2f;
+                startTime = Time.time;
+            }
+            yield return new WaitForSeconds(waitTime);
         }
     }
 }
