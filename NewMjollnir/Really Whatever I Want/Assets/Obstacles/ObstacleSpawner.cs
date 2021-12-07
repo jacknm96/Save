@@ -30,7 +30,7 @@ public class ObstacleSpawner : MonoBehaviour
             }*/
             pos = holders[num];
             holders.RemoveAt(num);
-            ObjectPool.Spawn(prefab, new Vector3((-7f/3f) + ((7f/3f) * (pos % 3)), (-7f / 3f) + ((7f / 3f) * (pos / 3)), 50f));
+            ObjectPool.Spawn(prefab, new Vector3((-7f/3f) + ((7f/3f) * (pos % 3)), (-7f / 3f - 5f / 6f) + ((7f / 3f) * (pos / 3)), 50f));
         }
         num = (int)Random.Range(0, holders.Count);
         pos = holders[num];

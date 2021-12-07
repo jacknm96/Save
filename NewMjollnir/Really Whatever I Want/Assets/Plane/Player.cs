@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     float stamina;
     float maxStamina = 100;
     public bool lost;
-    bool isBoosting;
+    public bool isBoosting;
     public int score;
     public TMP_Text text;
     [SerializeField] float speed;
@@ -31,6 +31,11 @@ public class Player : MonoBehaviour
     [SerializeField] WallCollider bottomCollider;
 
     [SerializeField] Looker looker;
+
+    [SerializeField] ParticleSystem leftEngine;
+    [SerializeField] ParticleSystem leftEngineAlpha;
+    [SerializeField] ParticleSystem rightEngine;
+    [SerializeField] ParticleSystem rightEngineAlpha;
 
     static public Player instance;
 
@@ -48,14 +53,6 @@ public class Player : MonoBehaviour
     void Update()
     {
         transform.rotation = Quaternion.LookRotation((looker.transform.position - transform.position).normalized);
-        if (IsMoving())
-        {
-            StopAllCoroutines();
-        }
-        else
-        {
-            StartCoroutine(Reposition());
-        }
         boost.fillAmount = stamina / maxStamina;
     }
 
@@ -85,14 +82,30 @@ public class Player : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
         }
+        if (direction.y == 0)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, looker.transform.position.y - transform.position.y, 0);
+        }
+        if (direction.x == 0)
+        {
+            rb.velocity = new Vector3(looker.transform.position.x - transform.position.x, rb.velocity.y, 0);
+        }
         if (isBoosting)
         {
             stamina -= 1;
             if (stamina <= 0)
             {
                 isBoosting = false;
+                leftEngine.startLifetime = 3;
+                leftEngine.startSpeed = 2;
+                rightEngine.startLifetime = 3;
+                rightEngine.startSpeed = 2;
+                leftEngineAlpha.startLifetime = 2;
+                leftEngineAlpha.startSpeed = 1.5f;
+                rightEngineAlpha.startLifetime = 2;
+                rightEngineAlpha.startSpeed = 1.5f;
             }
-            rb.velocity *= 1.5f;
+            rb.velocity *= 2f;
         }
     }
 
@@ -112,6 +125,27 @@ public class Player : MonoBehaviour
     private void OnJump(InputValue button)
     {
         isBoosting = button.Get<float>() > 0.5 && stamina > 0;
+        if (isBoosting)
+        {
+            leftEngine.startLifetime = 4;
+            leftEngine.startSpeed = 5;
+            rightEngine.startLifetime = 4;
+            rightEngine.startSpeed = 5;
+            leftEngineAlpha.startLifetime = 3;
+            leftEngineAlpha.startSpeed = 3;
+            rightEngineAlpha.startLifetime = 3;
+            rightEngineAlpha.startSpeed = 3;
+        } else
+        {
+            leftEngine.startLifetime = 3;
+            leftEngine.startSpeed = 2;
+            rightEngine.startLifetime = 3;
+            rightEngine.startSpeed = 2;
+            leftEngineAlpha.startLifetime = 2;
+            leftEngineAlpha.startSpeed = 1.5f;
+            rightEngineAlpha.startLifetime = 2;
+            rightEngineAlpha.startSpeed = 1.5f;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -171,16 +205,5 @@ public class Player : MonoBehaviour
     {
         score++;
         text.text = score.ToString();
-    }
-
-    IEnumerator Reposition()
-    {
-        float startTime = Time.time;
-        while (true)
-        {
-            float delta = (Time.time - startTime) * Time.deltaTime * 0.1f;
-            transform.position = new Vector3(Mathf.Lerp(transform.position.x, looker.transform.position.x, delta), Mathf.Lerp(transform.position.y, looker.transform.position.y, delta), transform.position.z);
-            yield return null;
-        }
     }
 }

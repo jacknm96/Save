@@ -12,12 +12,6 @@ public class Looker : MonoBehaviour
 
     [SerializeField] Player player;
 
-    Coroutine xReposition;
-    Coroutine yReposition;
-
-    bool xDrift;
-    bool yDrift;
-
     [SerializeField] WallCollider topCollider;
     [SerializeField] WallCollider leftCollider;
     [SerializeField] WallCollider rightCollider;
@@ -51,31 +45,16 @@ public class Looker : MonoBehaviour
             {
                 direction.x = 0;
             }
-            /*if (player.IsMoving())
-            {
-                StopAllCoroutines();
-            } else
-            {
-                StartCoroutine(RepositionX());
-                StartCoroutine(RepositionY());
-            }
-            if (direction.y == 0 && !yDrift)
-            {
-                yReposition = StartCoroutine(RepositionY());
-            } else
-            {
-                StopCoroutine(yReposition);
-                yDrift = false;
-            }
-            if (direction.x == 0 && !xDrift)
-            {
-                xReposition = StartCoroutine(RepositionX());
-            } else
-            {
-                StopCoroutine(xReposition);
-                xDrift = false;
-            }*/
             rb.velocity = direction * speed;
+            if (direction.y == 0)
+            {
+                rb.velocity = new Vector3(rb.velocity.x, player.transform.position.y - transform.position.y, 0);
+            }
+            if (direction.x == 0)
+            {
+                rb.velocity = new Vector3(player.transform.position.x - transform.position.x, rb.velocity.y,  0);
+            }
+            if (player.isBoosting) rb.velocity *= 2;
         }
     }
 
@@ -91,29 +70,5 @@ public class Looker : MonoBehaviour
         bottomCollider.hitWall = false;
         leftCollider.hitWall = false;
         rightCollider.hitWall = false;
-    }
-
-    IEnumerator RepositionX()
-    {
-        xDrift = true;
-        float startTime = Time.time;
-        while (true)
-        {
-            float delta = (Time.time - startTime) * Time.deltaTime * 0.1f;
-            transform.position = new Vector3(Mathf.Lerp(transform.position.x, player.transform.position.x, delta), transform.position.y, transform.position.z);
-            yield return null;
-        }
-    }
-
-    IEnumerator RepositionY()
-    {
-        yDrift = true;
-        float startTime = Time.time;
-        while (true)
-        {
-            float delta = (Time.time - startTime) * Time.deltaTime * 0.1f;
-            transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, player.transform.position.y, delta), transform.position.z);
-            yield return null;
-        }
     }
 }

@@ -8,6 +8,9 @@ public class Obstacle : MonoBehaviour
     Rigidbody rb;
     [SerializeField] float speed;
     Player player;
+    float xRotate;
+    float yRotate;
+    float zRotate;
 
     private void Start()
     {
@@ -17,8 +20,10 @@ public class Obstacle : MonoBehaviour
     private void OnEnable()
     {
         rb = GetComponent<Rigidbody>();
-        //transform.position.Set(position.x, position.y, 0);
         rb.velocity = new Vector3(0, 0, -speed);
+        xRotate = Random.Range(1, 5);
+        yRotate = Random.Range(1, 5);
+        zRotate = Random.Range(1, 5);
     }
 
     private void FixedUpdate()
@@ -27,6 +32,7 @@ public class Obstacle : MonoBehaviour
         {
             Delete();
         }
+        transform.Rotate(0, yRotate, 0);
     }
 
     public void StopMoving()
