@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
@@ -14,10 +15,13 @@ public class Player : MonoBehaviour
     [SerializeField] Image boost;
     float stamina;
     float maxStamina = 100;
-    bool lost;
+    public bool lost;
     bool isBoosting;
+    public int score;
+    public TMP_Text text;
     [SerializeField] float speed;
     [SerializeField] Obstacle prefab;
+    [SerializeField] Fuel fuel;
     [SerializeField] GameObject loseScreen;
     [SerializeField] ObstacleSpawner spawner;
 
@@ -26,14 +30,18 @@ public class Player : MonoBehaviour
     [SerializeField] WallCollider rightCollider;
     [SerializeField] WallCollider bottomCollider;
 
-    [SerializeField] GameObject looker;
+    [SerializeField] Looker looker;
+
+    static public Player instance;
 
     // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        startPos = transform.position;
+        startPos = transform.localPosition;
         stamina = 100;
+        text.text = score.ToString();
+        instance = this;
     }
 
     // Update is called once per frame
@@ -108,35 +116,61 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        loseScreen.SetActive(true);
-        lost = true;
-        List<Obstacle> obstacles = ObjectPool.GetSpawned<Obstacle>(prefab, null, false);
-        foreach (Obstacle obstacle in obstacles)
+        if (other.CompareTag("Respawn"))
         {
-            obstacle.StopMoving();
+            ReFuel();
+        } else
+        {
+            loseScreen.SetActive(true);
+            lost = true;
+            List<Obstacle> obstacles = ObjectPool.GetSpawned<Obstacle>(prefab, null, false);
+            foreach (Obstacle obstacle in obstacles)
+            {
+                obstacle.StopMoving();
+            }
+            List<Fuel> fuelCells = ObjectPool.GetSpawned<Fuel>(fuel, null, false);
+            foreach (Fuel fuelCell in fuelCells)
+            {
+                fuelCell.StopMoving();
+            }
+            spawner.StopSpawning();
         }
-        spawner.StopSpawning();
     }
 
     public void Init()
     {
-        transform.position = startPos;
+        transform.localPosition = startPos;
         lost = false;
         topCollider.hitWall = false;
         bottomCollider.hitWall = false;
         leftCollider.hitWall = false;
         rightCollider.hitWall = false;
+    }
+
+    void ReFuel()
+    {
+        stamina += 20;
+        if (stamina > 100) stamina = 100;
     }
 
     public void Restart()
     {
         ObjectPool.RecycleAll(prefab);
+        ObjectPool.RecycleAll(fuel);
         lost = false;
-        transform.position = startPos;
+        transform.localPosition = startPos;
         topCollider.hitWall = false;
         bottomCollider.hitWall = false;
         leftCollider.hitWall = false;
         rightCollider.hitWall = false;
+        looker.Restart();
+        stamina = 100;
+    }
+
+    public void AdjustScore()
+    {
+        score++;
+        text.text = score.ToString();
     }
 
     IEnumerator Reposition()

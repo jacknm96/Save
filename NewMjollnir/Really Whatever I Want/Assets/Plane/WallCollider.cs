@@ -8,7 +8,7 @@ public class WallCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("EditorOnly"))
+        if (other.CompareTag("Wall"))
         {
             hitWall = true;
         }
@@ -16,7 +16,7 @@ public class WallCollider : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("EditorOnly"))
+        if (other.CompareTag("Wall"))
         {
             hitWall = false;
         }

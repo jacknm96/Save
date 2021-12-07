@@ -7,6 +7,12 @@ public class Obstacle : MonoBehaviour
 {
     Rigidbody rb;
     [SerializeField] float speed;
+    Player player;
+
+    private void Start()
+    {
+        player = Player.instance;
+    }
 
     private void OnEnable()
     {
@@ -31,6 +37,7 @@ public class Obstacle : MonoBehaviour
     public void Delete()
     {
         ObjectPool.Recycle(this);
+        player.AdjustScore();
     }
 
     public Obstacle(Vector2 position)

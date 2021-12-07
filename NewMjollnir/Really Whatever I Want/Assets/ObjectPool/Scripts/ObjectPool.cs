@@ -71,7 +71,7 @@ public sealed class ObjectPool : MonoBehaviour
 					obj.transform.parent = parent;
 					list.Add(obj);
 				}
-				prefab.SetActive(active);
+				prefab.SetActive(true);
 			}
 		}
 	}
