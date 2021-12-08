@@ -11,9 +11,9 @@ public class ObstacleSpawner : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
-        StartCoroutine(Spawner());
         ObjectPool.CreatePool(prefab, difficulty);
         ObjectPool.CreatePool(fuel, 1);
+        StartCoroutine(Spawner());
     }
 
     void CreateObstacles()
@@ -24,17 +24,16 @@ public class ObstacleSpawner : MonoBehaviour
         for (int i = 0; i < difficulty; i++)
         {
             num = (int)Random.Range(0, holders.Count);
-            /*while (holders.Contains(pos))
-            {
-                pos = (int)Random.Range(0, 9);
-            }*/
             pos = holders[num];
             holders.RemoveAt(num);
             ObjectPool.Spawn(prefab, new Vector3((-7f/3f) + ((7f/3f) * (pos % 3)), (-7f / 3f - 5f / 6f) + ((7f / 3f) * (pos / 3)), 50f));
         }
-        num = (int)Random.Range(0, holders.Count);
-        pos = holders[num];
-        ObjectPool.Spawn(fuel, new Vector3((-7f / 3f) + ((7f / 3f) * (pos % 3)), (-7f / 3f) + ((7f / 3f) * (pos / 3)), 50f));
+        if ((int)Random.Range(0, 5) == 0)
+        {
+            num = (int)Random.Range(0, holders.Count);
+            pos = holders[num];
+            ObjectPool.Spawn(fuel, new Vector3((-7f / 3f) + ((7f / 3f) * (pos % 3)), (-7f / 3f) + ((7f / 3f) * (pos / 3)), 50f));
+        }
     }
 
     public void SetDifficulty(int diff)
@@ -55,16 +54,16 @@ public class ObstacleSpawner : MonoBehaviour
     IEnumerator Spawner()
     {
         float startTime = Time.time;
-        float waitTime = 5;
+        float waitTime = 4;
         while (true)
         {
             CreateObstacles();
-            if (Time.time - startTime > 15 && waitTime > 2)
+            if (Time.time - startTime > 15 && waitTime > 1)
             {
                 waitTime -= 0.2f;
                 startTime = Time.time;
             }
-            yield return new WaitForSeconds(waitTime);
+            yield return new WaitForSeconds(waitTime * Random.Range(0.8f, 1.2f));
         }
     }
 }

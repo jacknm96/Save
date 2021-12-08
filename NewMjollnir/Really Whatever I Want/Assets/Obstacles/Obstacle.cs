@@ -11,6 +11,8 @@ public class Obstacle : MonoBehaviour
     float xRotate;
     float yRotate;
     float zRotate;
+    bool rotate;
+    Vector3 center;
 
     private void Start()
     {
@@ -24,6 +26,7 @@ public class Obstacle : MonoBehaviour
         xRotate = Random.Range(1, 5);
         yRotate = Random.Range(1, 5);
         zRotate = Random.Range(1, 5);
+        rotate = true;
     }
 
     private void FixedUpdate()
@@ -32,12 +35,19 @@ public class Obstacle : MonoBehaviour
         {
             Delete();
         }
-        transform.Rotate(0, yRotate, 0);
+        if (rotate)
+        {
+            center = gameObject.GetComponent<Renderer>().bounds.center;
+            transform.Rotate(0, yRotate, 0);
+            transform.RotateAround(center, Vector3.right, -xRotate);
+            transform.RotateAround(center, Vector3.forward, zRotate);
+        }
     }
 
     public void StopMoving()
     {
         rb.velocity = Vector3.zero;
+        rotate = false; ;
     }
 
     public void Delete()
