@@ -7,12 +7,20 @@ public class Obstacle : MonoBehaviour
 {
     Rigidbody rb;
     [SerializeField] float speed;
+    [SerializeField] bool scorer;
     Player player;
     float xRotate;
     float yRotate;
     float zRotate;
     bool rotate;
     Vector3 center;
+
+    public Obstacle(Vector2 position)
+    {
+        rb = GetComponent<Rigidbody>();
+        transform.position.Set(position.x, position.y, 0);
+        rb.velocity = new Vector3(0, 0, -speed);
+    }
 
     private void Start()
     {
@@ -47,19 +55,15 @@ public class Obstacle : MonoBehaviour
     public void StopMoving()
     {
         rb.velocity = Vector3.zero;
-        rotate = false; ;
+        rotate = false;
     }
 
     public void Delete()
     {
         ObjectPool.Recycle(this);
-        player.AdjustScore();
-    }
-
-    public Obstacle(Vector2 position)
-    {
-        rb = GetComponent<Rigidbody>();
-        transform.position.Set(position.x, position.y, 0);
-        rb.velocity = new Vector3(0, 0, -speed);
-    }
+        if (scorer)
+        {
+            player.AdjustScore();
+        }
+    } 
 }

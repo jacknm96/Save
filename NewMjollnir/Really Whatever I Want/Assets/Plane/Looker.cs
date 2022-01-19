@@ -63,6 +63,11 @@ public class Looker : MonoBehaviour
         direction = value.Get<Vector2>();
     }
 
+    public void StopMoving()
+    {
+        rb.velocity = Vector3.zero;
+    }
+
     public void Restart()
     {
         transform.localPosition = startPos;

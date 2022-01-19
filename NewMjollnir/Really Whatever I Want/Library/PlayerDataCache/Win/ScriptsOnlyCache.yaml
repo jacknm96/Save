@@ -1,6 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - BackgroundSpawner
     - ChangeAudioSettings
     - Fuel
     - Looker
@@ -123,6 +124,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14844}
     - Class: 114
       Script: {instanceID: 14880}
+    - Class: 114
+      Script: {instanceID: 43584}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -378,7 +381,7 @@ ScriptsOnlyBuild:
     className: TrackedPoseDriver
   - hash:
       serializedVersion: 2
-      Hash: afc5b93a7b192de2dcb3832fe35a5c7e
+      Hash: b94415b820b8dd048e378acdb5c16cb1
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Obstacle
@@ -916,6 +919,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 220bd265f54cc4cee8f1539ad2b2c64a
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: BackgroundSpawner
   platform: 5
   scenePathNames:
   - Assets/Scenes/TestGame.unity

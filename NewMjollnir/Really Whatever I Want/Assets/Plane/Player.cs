@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
 {
     Rigidbody rb;
     Vector2 direction;
+    Vector3 movement;
     Vector3 startPos;
     Vector3 cameraPosition;
 
@@ -64,16 +65,26 @@ public class Player : MonoBehaviour
     void Update()
     {
         transform.rotation = Quaternion.LookRotation((looker.transform.position - transform.position).normalized); // look at looker
+        /*Vector3 rotationVec;
+        rotationVec.x = -rb.velocity.y * speed * 10; ;
+        rotationVec.y = 0;
+        rotationVec.z = -rb.velocity.x * speed * 10;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(rotationVec), Time.deltaTime);
+        rb.velocity = Vector3.Lerp(rb.velocity, movement, Time.deltaTime);
+        */
     }
 
     private void FixedUpdate()
     {
-        DetectWalls();
-        Move();
-        Drift();
-        if (isBoosting)
+        if (!lost)
         {
-            Boost();
+            DetectWalls();
+            Move();
+            Drift();
+            if (isBoosting)
+            {
+                Boost();
+            }
         }
     }
 
@@ -102,11 +113,18 @@ public class Player : MonoBehaviour
         if (direction.magnitude > 0.1f)
         {
             rb.velocity = direction * speed;
+            //movement = direction * speed;
         }
         else
         {
-            rb.velocity = Vector2.zero;
+            rb.velocity = Vector3.zero;
+            //movement = Vector3.zero;
         }
+
+        //
+        
+
+        //
     }
 
     void Drift()
@@ -147,6 +165,8 @@ public class Player : MonoBehaviour
         bottomCollider.hitWall = false;
         leftCollider.hitWall = false;
         rightCollider.hitWall = false;
+        score = 0;
+        text.text = score.ToString();
         engineSound.Play();
     }
     
@@ -155,6 +175,7 @@ public class Player : MonoBehaviour
     {
         ObjectPool.RecycleAll(prefab);
         ObjectPool.RecycleAll(fuel);
+        rb.velocity = Vector3.zero;
         lost = false;
         transform.localPosition = startPos;
         topCollider.hitWall = false;
@@ -173,6 +194,11 @@ public class Player : MonoBehaviour
     {
         score++;
         text.text = score.ToString();
+    }
+
+    public void DoExit()
+    {
+        Application.Quit();
     }
 
     private void OnMove(InputValue value)
@@ -205,7 +231,9 @@ public class Player : MonoBehaviour
             if (!loseScreen.activeSelf) loseSound.Play();
             loseScreen.SetActive(true);
             lost = true;
-
+            rb.velocity = Vector3.zero;
+            direction = Vector2.zero;
+            looker.StopMoving();
             //pause all obstacles/fuel cells
             List<Obstacle> obstacles = ObjectPool.GetSpawned<Obstacle>(prefab, null, false);
             foreach (Obstacle obstacle in obstacles)
@@ -227,12 +255,16 @@ public class Player : MonoBehaviour
     {
         leftEngine.startLifetime = 4;
         leftEngine.startSpeed = 5;
+        leftEngine.emissionRate = 500;
         rightEngine.startLifetime = 4;
         rightEngine.startSpeed = 5;
+        rightEngine.emissionRate = 500;
         leftEngineAlpha.startLifetime = 3;
         leftEngineAlpha.startSpeed = 3;
+        leftEngineAlpha.emissionRate = 500;
         rightEngineAlpha.startLifetime = 3;
         rightEngineAlpha.startSpeed = 3;
+        rightEngineAlpha.emissionRate = 500;
         StopAllCoroutines();
         StartCoroutine(CameraBoostZoomOut());
     }
@@ -242,12 +274,16 @@ public class Player : MonoBehaviour
     {
         leftEngine.startLifetime = 3;
         leftEngine.startSpeed = 2;
+        leftEngine.emissionRate = 100;
         rightEngine.startLifetime = 3;
         rightEngine.startSpeed = 2;
+        rightEngine.emissionRate = 100;
         leftEngineAlpha.startLifetime = 2;
         leftEngineAlpha.startSpeed = 1.5f;
+        leftEngineAlpha.emissionRate = 100;
         rightEngineAlpha.startLifetime = 2;
         rightEngineAlpha.startSpeed = 1.5f;
+        rightEngineAlpha.emissionRate = 100;
         StopAllCoroutines();
         StartCoroutine(CameraBoostZoomIn());
     }
@@ -265,7 +301,7 @@ public class Player : MonoBehaviour
         float startTime = Time.time;
         while(true)
         {
-            camera.transform.position = new Vector3(cameraPosition.x, cameraPosition.y, Mathf.Lerp(camera.transform.position.z, cameraPosition.z - 2, (Time.time - startTime) * Time.deltaTime * 5));
+            camera.transform.position = new Vector3(cameraPosition.x, cameraPosition.y, Mathf.Lerp(camera.transform.position.z, cameraPosition.z - 2, (Time.time - startTime) * Time.deltaTime * 10));
             yield return null;
         }
     }
@@ -275,7 +311,7 @@ public class Player : MonoBehaviour
         float startTime = Time.time;
         while (true)
         {
-            camera.transform.position = new Vector3(cameraPosition.x, cameraPosition.y, Mathf.Lerp(camera.transform.position.z, cameraPosition.z, (Time.time - startTime) * Time.deltaTime * 2));
+            camera.transform.position = new Vector3(cameraPosition.x, cameraPosition.y, Mathf.Lerp(camera.transform.position.z, cameraPosition.z, (Time.time - startTime) * Time.deltaTime * 4));
             yield return null;
         }
     }
