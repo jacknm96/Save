@@ -7,6 +7,7 @@ template<typename T>
 class DoubleLinkedList {
 
 public:
+    // Defines each node of the list
     class Node {
     public:
         Node(T val) {
@@ -35,14 +36,15 @@ public:
             return prev;
         }
 
+        // returns true if Node's data is greater than passed parameter
         template<typename T>
-        bool IsLess(T &x) {
-            return data < x;
+        bool IsGreater(T x) {
+            return data > x;
         }
 
-        template<>
-        bool IsLess(std::string x) {
-            return data.compare(x) < 0;
+        // string override
+        bool IsGreater(std::string x) {
+            return data.compare(x) > 0;
         }
 
         void Destroy() {
@@ -69,6 +71,7 @@ public:
         return count == 0;
     }
 
+    // returns the head node in list
     Node GetFront() {
         if (head != nullptr) {
             return *head;
@@ -78,6 +81,7 @@ public:
         }
     }
 
+    // returns last node in list
     Node GetBack() {
         if (tail != nullptr) {
             return *tail;
@@ -87,6 +91,7 @@ public:
         }
     }
 
+    // creates new node using passed parameter and pushes it to front
     void PushFront(T val) {
         if (head == nullptr) {
             head = CreateNode(val);
@@ -101,6 +106,7 @@ public:
         count++;
     }
 
+    // deletes front node;
     void PopFront() {
         if (head != nullptr) {
             if (head == tail) {
@@ -112,12 +118,13 @@ public:
                 head = head->GetNext();
                 temp->Destroy();
             }
+            count--;
         }
-        count--;
     }
 
+    // deletes back node
     void PopBack() {
-        if (head != nullptr) {
+        if (tail != nullptr) {
             if (head == tail) {
                 head = nullptr;
                 tail = nullptr;
@@ -127,10 +134,11 @@ public:
                 tail = tail->GetPrev();
                 temp->Destroy();
             }
+            count--;
         }
-        count--;
     }
 
+    // creates new node using passed parameter and pushes it to tail
     void PushBack(T val) {
         if (tail == nullptr) {
             head = CreateNode(val);
@@ -145,21 +153,22 @@ public:
         count++;
     }
 
+    // creates new node using passed parameter and inserts it at given index (head = 0)
     void Insert(T val, int index) {
-        if (index > count || index < 0) {
+        if (index > count || index < 0) { // if passed index is outside bound of list
             return;
         }
-        if (index == count) {
+        if (index == count) { // if index is last item, push back
             PushBack(val);
             return;
         }
-        else if (index == 0) {
+        else if (index == 0) {// if index is first item, push front
             PushFront(val);
             return;
         }
         Node* curr = head;
         int counter = index;
-        while (counter > 0) {
+        while (counter > 0) { // iterate through list up to index
             curr = curr->GetNext();
             counter--;
         }
@@ -171,8 +180,10 @@ public:
         holder->AddNext(curr);
         holder->AddPrev(prev);
         curr->AddPrev(holder);
+        count++;
     }
 
+    // deletes node containing passed value. if multiple nodes have the same value, deletes the first one
     void Delete(T val) {
         Node* curr = head;
         while (curr != nullptr && curr->GetData() != val) {
@@ -196,8 +207,10 @@ public:
             head = next;
         }
         curr->Destroy();
+        count--;
     }
 
+    // prints out list
     void PrintList() {
         Node* next = head;
         if (next != nullptr) {
@@ -211,20 +224,42 @@ public:
         std::cout << std::endl;
     }
 
+    // sorts list using bubble sort method
     void BubbleSort()
     {
+        if (head == nullptr) { // return if empty list
+            return;
+        }
         bool clean = false; // will check to see if the array is sorted yet
         while (!clean) // while array is not sorted
         {
             clean = true; // prime to assume it is sorted
             Node* curr = head;
-            Node* next = nullptr;
-            if (curr->GetNext() != nullptr) {
-                next = curr->GetNext();
-            }
-            while (next != nullptr) {
-                if (curr->GetData() > next->GetData()) {
-
+            Node* next = curr->GetNext();
+            while (next != nullptr) { // while we havent reached end of list
+                if (curr->IsGreater(next->GetData())) { // reassign pointers to swap 2 nodes
+                    if (curr == head) {
+                        head = next;
+                    }
+                    else {
+                        curr->GetPrev()->AddNext(next);
+                    }
+                    if (next == tail) {
+                        tail = curr;
+                    }
+                    else {
+                        next->GetNext()->AddPrev(curr);
+                    }
+                    curr->AddNext(next->GetNext());
+                    next->AddPrev(curr->GetPrev());
+                    curr->AddPrev(next);
+                    next->AddNext(curr);
+                    next = curr->GetNext();
+                    clean = false;
+                }
+                else {
+                    curr = next;
+                    next = curr->GetNext();
                 }
             }
         }
@@ -243,16 +278,15 @@ private:
 
 int main()
 {
-    DoubleLinkedList<int> list = DoubleLinkedList<int>();
-    list.PushBack(6);
-    list.PushFront(5);
-    list.PopBack();
-    list.PushBack(4);
-    list.PushFront(3);
+    DoubleLinkedList<std::string> list = DoubleLinkedList<std::string>();
+    list.PushFront("hi");
+    list.PushBack("poop");
+    list.Insert("class", 1);
+    list.PushBack("c++ sucks");
+    list.Insert("c# is better", 3);
+    list.PushFront("potato");
     list.PrintList();
-    list.Insert(7, 2);
-    list.PrintList();
-    list.Delete(3);
+    list.BubbleSort();
     list.PrintList();
 }
 
