@@ -1,34 +1,31 @@
 #pragma once
-#include <iostream>
 
 template <typename T>
 class BinaryTree {
 public:
-	class Node {
+	class Node { //defines our node objects in our tree
 	public:
 		Node(T val);
 
-		void AddLeft(Node* node);
+		void AddLeft(Node* node); //adds a left child
 
-		void AddRight(Node* node);
+		void AddRight(Node* node); //adds a right child
 
-		T GetData();
+		T GetData(); //returns the data in node
 
-		Node* GetLeft();
+		void ChangeData(T val); //changes the data in node - used for deletion to copy data
 
-		Node* GetRight();
+		Node* GetLeft(); //returns pointer to left child
 
-		template<typename T>
-		bool IsGreater(T x);
+		Node* GetRight(); //returns pointer to right child
 
-		bool IsGreater(std::string x);
+		bool IsGreater(T x); //returns true if greater than given data
 
-		template<typename T>
-		bool Equals(T x);
+		bool Equals(T x); //returns true if equals given data
 
-		bool Equals(std::string x);
+		void Destroy(); //deletes this node
 
-		void Destroy();
+		void Draw(int x, int y, float radius); //draws this node in raylib
 
 	private:
 		T data;
@@ -36,16 +33,20 @@ public:
 		Node* right;
 	};
 
-	DoubleLinkedList();
+	BinaryTree();
 
-	void Insert(T val);
+	void Insert(T val); //inserts given value in ordered binary tree
 
-	void Delete(T val);
+	void Delete(T val); //deletes value if it exists in tree and reorders tree accordingly
 
-	Node Search(T val);
+	Node* Search(T val); //returns node containing the given value
+
+	void Draw(); //draws the binary tree in raylib
 
 private:
 	Node* root;
 
 	Node* CreateNode(T val);
+
+	void DrawNodes(Node* curr, int x, int y, float radius);
 };

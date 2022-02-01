@@ -2,20 +2,47 @@
 //
 
 #include <iostream>
-#include "Header.h"
+#include <list>
+
+unsigned int badHash(const char* data, unsigned int length) {
+	unsigned int hash = 0;
+	for (unsigned int i = 0; i < length; i++) {
+		hash += data[i];
+	}
+	return hash;
+}
+
+unsigned int GoodHash(const char* data, unsigned int length) {
+	unsigned int hash = 0;
+	for (unsigned int i = 0; i < length; i++) {
+		hash *= 10;
+		hash += data[i] * 13 * i;
+	}
+	return hash;
+}
+
+std::string UnHash(unsigned int hash, std::string names[]) {
+	return names[hash % 20];
+}
 
 int main()
 {
     std::string name = "Jack M";
+	std::string names[20] = {""};
     const char* c = name.c_str();
     typedef unsigned int uint;
     unsigned int i = name.size();
     std::cout << "Name is: " << name << std::endl;
-    int hash = defaultHash(c, i);
+    int hash = badHash(c, i);
     std::cout << "Bad hash is: " << hash << std::endl;
-    defaultHash = GoodHash;
-    hash = defaultHash(c, i);
+    hash = GoodHash(c, i);
+	for (int i = hash % 20; i < sizeof(names) / sizeof(names[0]); i++) {
+		if (names[hash % 20] == "") {
+			names[hash % 20] = name;
+		}
+	}
     std::cout << "Good hash is: " << hash << std::endl;
+	std::cout << "Hashed name is: " << UnHash(hash, names) << std::endl;
     return 0;
 }
 
