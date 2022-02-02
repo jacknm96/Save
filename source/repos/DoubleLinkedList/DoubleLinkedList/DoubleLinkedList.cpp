@@ -93,7 +93,7 @@ public:
 
     // creates new node using passed parameter and pushes it to front
     void PushFront(T val) {
-        if (head == nullptr) {
+        if (head == nullptr) { // if list is empty, new node is both head and tail
             head = CreateNode(val);
             tail = head;
         }
@@ -109,7 +109,7 @@ public:
     // deletes front node;
     void PopFront() {
         if (head != nullptr) {
-            if (head == tail) {
+            if (head == tail) { // if head and tail are same, only 1 node in list. delete that 1 node
                 head = nullptr;
                 tail = nullptr;
             }
@@ -125,7 +125,7 @@ public:
     // deletes back node
     void PopBack() {
         if (tail != nullptr) {
-            if (head == tail) {
+            if (head == tail) { // if head and tail are same, only 1 node in list. delete that 1 node
                 head = nullptr;
                 tail = nullptr;
             }
@@ -140,7 +140,7 @@ public:
 
     // creates new node using passed parameter and pushes it to tail
     void PushBack(T val) {
-        if (tail == nullptr) {
+        if (tail == nullptr) { // if list is empty, new node is both head and tail
             head = CreateNode(val);
             tail = head;
         }
@@ -186,7 +186,7 @@ public:
     // deletes node containing passed value. if multiple nodes have the same value, deletes the first one
     void Delete(T val) {
         Node* curr = head;
-        while (curr != nullptr && curr->GetData() != val) {
+        while (curr != nullptr && curr->GetData() != val) { //iterate through until find value or reach end of list
             curr = curr->GetNext();
         }
         if (curr == nullptr) {
