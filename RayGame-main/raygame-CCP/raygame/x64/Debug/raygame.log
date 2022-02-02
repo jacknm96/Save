@@ -1,3 +1,0 @@
-﻿  BinaryTree.cpp
-C:\Users\jackn\Save\RayGame-main\raygame-CCP\raygame\BinaryTree.cpp(142,2): error C2953: 'BinaryTree': class template has already been defined
-C:\Users\jackn\Save\RayGame-main\raygame-CCP\raygame\BinaryTree.cpp(7): message : see declaration of 'BinaryTree'
