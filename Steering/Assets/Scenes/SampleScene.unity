@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 362224539}
   - component: {fileID: 362224538}
   - component: {fileID: 362224537}
+  - component: {fileID: 362224543}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -156,12 +157,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb436918105c9c4f8269b95b1539fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 500
-  maxSpeed: 1000
+  maxSpeed: 50
   target: {fileID: 1416474900}
-  chase: 0
-  wanderRadius: 0
-  jitter: 0
+  targetRb: {fileID: 1416474896}
+  wanderRadius: 80
+  jitter: 10
+  behavior: 4
 --- !u!54 &362224538
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -176,7 +177,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!65 &362224539
 BoxCollider:
@@ -248,13 +249,26 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 362224536}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: -17.7, y: 0.5, z: 11.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2021771059}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &362224543
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362224536}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.1, z: 3}
 --- !u!1 &419601571
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,6 +283,7 @@ GameObject:
   - component: {fileID: 419601574}
   - component: {fileID: 419601573}
   - component: {fileID: 419601572}
+  - component: {fileID: 419601578}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -288,12 +303,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb436918105c9c4f8269b95b1539fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 500
   maxSpeed: 1000
   target: {fileID: 0}
-  chase: 1
+  targetRb: {fileID: 0}
   wanderRadius: 80
   jitter: 10
+  behavior: 1
 --- !u!54 &419601573
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -308,7 +323,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!65 &419601574
 BoxCollider:
@@ -387,6 +402,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &419601578
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419601571}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.1, z: 3}
 --- !u!1 &654060355
 GameObject:
   m_ObjectHideFlags: 0
@@ -827,6 +855,7 @@ GameObject:
   - component: {fileID: 1416474897}
   - component: {fileID: 1416474896}
   - component: {fileID: 1416474895}
+  - component: {fileID: 1416474901}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -846,12 +875,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb436918105c9c4f8269b95b1539fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 500
-  maxSpeed: 1000
+  maxSpeed: 50
   target: {fileID: 362224542}
-  chase: 1
-  wanderRadius: 0
-  jitter: 0
+  targetRb: {fileID: 362224538}
+  wanderRadius: 80
+  jitter: 10
+  behavior: 3
 --- !u!54 &1416474896
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -866,7 +895,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!65 &1416474897
 BoxCollider:
@@ -945,6 +974,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1416474901
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416474894}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.1, z: 3}
 --- !u!1 &2021771058
 GameObject:
   m_ObjectHideFlags: 0

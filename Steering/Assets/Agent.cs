@@ -5,14 +5,20 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Agent : MonoBehaviour
 {
+    public enum Behavior
+    {
+        seek, wander, flee, pursue, evade
+    }
+    
     Rigidbody rb;
 
-    [SerializeField] float speed;
     [SerializeField] float maxSpeed;
     [SerializeField] Transform target;
-    [SerializeField] bool chase;
+    [SerializeField] Rigidbody targetRb;
     [SerializeField] float wanderRadius;
     [SerializeField] float jitter;
+
+    public Behavior behavior;
     
     // Start is called before the first frame update
     void Start()
@@ -23,24 +29,45 @@ public class Agent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        transform.rotation = Quaternion.LookRotation(rb.velocity, Vector3.up);
     }
 
     private void FixedUpdate()
     {
         if (target != null)
         {
-            rb.velocity = transform.forward * speed * Time.deltaTime;
-            if (chase)
-            {
-                Seek();
-            } else
-            {
-                Flee();
-            }
+            ApplyBehavior();
         } else
         {
             Wander();
+        }
+    }
+
+    void ApplyBehavior()
+    {
+        switch (behavior)
+        {
+            case Behavior.seek:
+                Seek();
+                break;
+            case Behavior.flee:
+                Flee();
+                break;
+            case Behavior.wander:
+                Wander();
+                break;
+            case Behavior.pursue:
+                Pursue();
+                break;
+            case Behavior.evade:
+                Evade();
+                break;
+            default:
+                break;
+        }
+        if (rb.velocity.magnitude > maxSpeed)
+        {
+            rb.velocity = rb.velocity.normalized * maxSpeed;
         }
     }
 
@@ -69,10 +96,51 @@ public class Agent : MonoBehaviour
         rb.AddForce(newTarget);
     }
 
+    void Pursue()
+    {
+        rb.AddForce(CalculatePursueForce().normalized * maxSpeed - rb.velocity);
+    }
+
+    void Evade()
+    {
+        rb.AddForce(Vector3.Cross(CalculatePursueForce(), transform.up));
+    }
+
+    void Dodge(GameObject obstacle)
+    {
+        Vector3 V = CalculatePursueForce(obstacle);
+        Vector3 D = Quaternion.Euler(new Vector3(0, 90, 0)) * rb.velocity;
+        rb.AddForce(D * maxSpeed - rb.velocity);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<Rigidbody>())
+        {
+            Dodge(other.gameObject);
+        }
+    }
+
+    Vector3 CalculatePursueForce()
+    {
+        return targetRb.velocity + target.position - transform.position;
+    }
+
+    Vector3 CalculatePursueForce(GameObject obstacle)
+    {
+        return obstacle.GetComponent<Rigidbody>().velocity + obstacle.transform.position - transform.position;
+    }
+
     Vector3 CalculateSteeringForce()
     {
         Vector3 desiredVelocity = (target.position - transform.position).normalized * maxSpeed * Time.deltaTime;
         Vector3 steeringForce = desiredVelocity - rb.velocity;
         return steeringForce;
+    }
+
+    void ChangeTarget(Agent other)
+    {
+        target = other.transform;
+        targetRb = other.GetComponent<Rigidbody>();
     }
 }
