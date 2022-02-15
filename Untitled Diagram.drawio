@@ -1,1 +1,124 @@
-<mxfile host="app.diagrams.net" modified="2022-02-15T20:21:27.798Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36" version="15.7.4" etag="U81tc-QJkE0xFQgBoIKd" type="github"><diagram id="JPf1WkU9uwGbdD0bTZ9w">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2022-02-15T20:30:47.729Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36" etag="4rA9NixJF0gBAZaR8cUy" version="15.7.4" type="github">
+  <diagram id="JPf1WkU9uwGbdD0bTZ9w" name="Page-1">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="YTZb0HsTegoCNqehSWzk-1" value="&lt;font style=&quot;font-size: 16px&quot;&gt;Wander&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-2" value="Player Detected?" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-3" value="" style="endArrow=classic;html=1;rounded=0;fontSize=16;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="YTZb0HsTegoCNqehSWzk-1" target="YTZb0HsTegoCNqehSWzk-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="210" y="140" as="sourcePoint" />
+            <mxPoint x="260" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-4" value="Bull Nearby?" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="480" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-6" value="Cow Nearby?" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="200" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-8" value="" style="endArrow=classic;html=1;rounded=0;fontSize=16;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" target="YTZb0HsTegoCNqehSWzk-6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="140" as="sourcePoint" />
+            <mxPoint x="400" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-9" value="Bull?" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontSize=16;" connectable="0" vertex="1" parent="YTZb0HsTegoCNqehSWzk-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-10" value="" style="endArrow=classic;html=1;rounded=0;fontSize=16;" edge="1" parent="1" source="YTZb0HsTegoCNqehSWzk-2">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="110" as="sourcePoint" />
+            <mxPoint x="480" y="110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-11" value="Cow?" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontSize=16;" connectable="0" vertex="1" parent="YTZb0HsTegoCNqehSWzk-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-12" value="Move Away From Player" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="480" y="200" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-13" value="" style="endArrow=classic;html=1;rounded=0;fontSize=16;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="YTZb0HsTegoCNqehSWzk-4" target="YTZb0HsTegoCNqehSWzk-12">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="170" as="sourcePoint" />
+            <mxPoint x="590" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-14" value="No" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontSize=16;" connectable="0" vertex="1" parent="YTZb0HsTegoCNqehSWzk-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-15" value="" style="endArrow=classic;html=1;rounded=0;fontSize=16;" edge="1" parent="1" source="YTZb0HsTegoCNqehSWzk-6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="230" as="sourcePoint" />
+            <mxPoint x="480" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-16" value="No" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontSize=16;" connectable="0" vertex="1" parent="YTZb0HsTegoCNqehSWzk-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-17" value="Move Between Player and Cow" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="320" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-18" value="" style="endArrow=classic;html=1;rounded=0;fontSize=16;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="YTZb0HsTegoCNqehSWzk-6" target="YTZb0HsTegoCNqehSWzk-17">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="290" as="sourcePoint" />
+            <mxPoint x="390" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-19" value="Yes" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontSize=16;" connectable="0" vertex="1" parent="YTZb0HsTegoCNqehSWzk-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-20" value="" style="endArrow=classic;html=1;rounded=0;fontSize=16;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="YTZb0HsTegoCNqehSWzk-17" target="YTZb0HsTegoCNqehSWzk-12">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="420" y="320" as="sourcePoint" />
+            <mxPoint x="470" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-21" value="Move Behind Bull From Player" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="670" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-23" value="" style="endArrow=classic;html=1;rounded=0;fontSize=16;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="YTZb0HsTegoCNqehSWzk-21" target="YTZb0HsTegoCNqehSWzk-12">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="610" y="200" as="sourcePoint" />
+            <mxPoint x="660" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-24" value="" style="endArrow=classic;html=1;rounded=0;fontSize=16;" edge="1" parent="1" source="YTZb0HsTegoCNqehSWzk-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="600" y="110" as="sourcePoint" />
+            <mxPoint x="670" y="110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-25" value="Yes" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontSize=16;" connectable="0" vertex="1" parent="YTZb0HsTegoCNqehSWzk-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-26" value="Player No Longer Detected" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="480" y="420" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-27" value="" style="endArrow=none;html=1;rounded=0;fontSize=16;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="YTZb0HsTegoCNqehSWzk-26">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="140" y="450" as="sourcePoint" />
+            <mxPoint x="350" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-28" value="" style="endArrow=classic;html=1;rounded=0;fontSize=16;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" target="YTZb0HsTegoCNqehSWzk-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="140" y="450" as="sourcePoint" />
+            <mxPoint x="180" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YTZb0HsTegoCNqehSWzk-29" value="" style="endArrow=classic;html=1;rounded=0;fontSize=16;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="YTZb0HsTegoCNqehSWzk-12" target="YTZb0HsTegoCNqehSWzk-26">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="520" y="360" as="sourcePoint" />
+            <mxPoint x="570" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
