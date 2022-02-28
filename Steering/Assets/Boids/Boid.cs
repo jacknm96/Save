@@ -4,11 +4,14 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(SphereCollider))]
+[RequireComponent(typeof(BoxCollider))]
 public class Boid : MonoBehaviour
 {
-    float neighborhoodRadius = 4;
+    float neighborhoodRadius = 8;
 
-    List<Boid> neighbors;
+    [SerializeField] List<Boid> neighbors;
+
+    [SerializeField] Boid leader;
 
     [Range(0.1f, 1f)]
     [SerializeField] float separationWeight = 1;
@@ -18,6 +21,7 @@ public class Boid : MonoBehaviour
     [SerializeField] float cohesionWeight = 1;
 
     [SerializeField] float speed;
+    [SerializeField] float maxForce;
 
     public Rigidbody rb;
     
@@ -26,15 +30,17 @@ public class Boid : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         GetComponent<SphereCollider>().isTrigger = true;
-        GetComponent<SphereCollider>().radius = neighborhoodRadius;
+        GetComponent<SphereCollider>().radius = neighborhoodRadius / 2;
         neighbors = new List<Boid>();
+        neighbors.Add(leader);
+        //rb.velocity = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1)) * Random.Range(1, speed);
     }
 
     private void FixedUpdate()
     {
         if (neighbors.Count > 0)
         {
-            WeightedSum();
+            WeightedTruncatedRunningSum();
         }
     }
 
@@ -42,13 +48,16 @@ public class Boid : MonoBehaviour
     {
         if (other.GetComponent<Boid>() != null)
         {
-            neighbors.Add(other.GetComponent<Boid>());
+            if (!neighbors.Contains(other.GetComponent<Boid>()))
+            {
+                neighbors.Add(other.GetComponent<Boid>());
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<Boid>() != null)
+        if (other.GetComponent<Boid>() != null && other.GetComponent<Boid>() != leader)
         {
             neighbors.Remove(other.GetComponent<Boid>());
         }
@@ -63,6 +72,24 @@ public class Boid : MonoBehaviour
     public Vector3 GetVelocity()
     {
         return rb.velocity;
+    }
+
+    Vector3[] GetVectors() // slot 0 is separation, 1 is alignment, 2 is cohesion
+    {
+        Vector3[] vectors = new Vector3[3];
+        vectors[0] = Vector3.zero;
+        vectors[1] = Vector3.zero;
+        vectors[2] = Vector3.zero;
+        foreach (Boid boid in neighbors)
+        {
+            vectors[0] += -(boid.transform.position - transform.position);
+            vectors[1] += boid.GetVelocity();
+            vectors[2] += boid.transform.position - transform.position;
+        }
+        vectors[0] /= neighbors.Count;
+        vectors[1] /= neighbors.Count;
+        vectors[2] /= neighbors.Count;
+        return vectors;
     }
 
     Vector3 Separation() // avoid neighbors
@@ -97,11 +124,82 @@ public class Boid : MonoBehaviour
 
     void SimpleSum()
     {
-        rb.AddForce((Separation() + Alignment() + Cohesion()) * speed);
+        Vector3[] vectors = GetVectors();
+        rb.AddForce((vectors[0] + vectors[1] + vectors[2]) * speed);
     }
 
     void WeightedSum()
     {
-        rb.AddForce((Separation() * separationWeight + Alignment() * alignmentWeight + Cohesion() * cohesionWeight) * speed);
+        Vector3[] vectors = GetVectors();
+        rb.AddForce((vectors[0] * separationWeight + vectors[1] * alignmentWeight + vectors[2] * cohesionWeight) * speed);
+    }
+
+    void WeightedTruncatedRunningSum()
+    {
+        Vector3[] vectors = GetVectors();
+        float angle = Vector3.Angle(vectors[1], rb.velocity) / 180;
+        float averageDistance = 0;
+        if (neighbors.Count > 0)
+        {
+            foreach (Boid boid in neighbors)
+            {
+                averageDistance += Vector3.Distance(boid.transform.position, transform.position);
+            }
+            averageDistance /= neighbors.Count;
+        }
+        averageDistance /= neighborhoodRadius;
+        List<float> values = new List<float>();
+        values.Add(angle);
+        values.Add(averageDistance);
+        values.Add(1 - averageDistance);
+        values.Sort();
+        Vector3 forceToApply = Vector3.zero;
+        float forceApplied = 0;
+        for (int i = 2; i >= 0; i--)
+        {
+            if (values[i] == angle)
+            {
+                if (forceApplied < maxForce)
+                {
+                    float addTo = (vectors[1] * alignmentWeight * speed).magnitude;
+                    if (forceApplied + addTo > maxForce)
+                    {
+                        addTo = maxForce - forceApplied;
+                    }
+                    forceToApply += (vectors[1] * alignmentWeight * speed).normalized * addTo;
+                    forceApplied += addTo;
+                }
+            } else if (values[i] == averageDistance)
+            {
+                if (forceApplied < maxForce)
+                {
+                    float addTo = (vectors[2] * cohesionWeight * speed).magnitude;
+                    if (forceApplied + addTo > maxForce)
+                    {
+                        addTo = maxForce - forceApplied;
+                    }
+                    forceToApply += (vectors[2] * cohesionWeight * speed).normalized * addTo;
+                    forceApplied += addTo;
+                }
+            } else
+            {
+                if (forceApplied < maxForce)
+                {
+                    float addTo = (vectors[0] * separationWeight * speed).magnitude;
+                    if (forceApplied + addTo > maxForce)
+                    {
+                        addTo = maxForce - forceApplied;
+                    }
+                    forceToApply += (vectors[0] * separationWeight * speed).normalized * addTo;
+                    forceApplied += addTo;
+                }
+            }
+        }
+        if (leader == this)
+        {
+            forceToApply /= 2;
+        }
+        forceToApply += transform.forward * 2;
+        rb.AddForce(forceToApply * speed);
     }
 }

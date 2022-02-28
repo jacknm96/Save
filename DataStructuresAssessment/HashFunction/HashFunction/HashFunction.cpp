@@ -4,6 +4,7 @@
 #include <iostream>
 #include <list>
 
+// basic hash we made in class with potential merge conflicts
 unsigned int badHash(const char* data, unsigned int length) {
 	unsigned int hash = 0;
 	for (unsigned int i = 0; i < length; i++) {
@@ -12,6 +13,7 @@ unsigned int badHash(const char* data, unsigned int length) {
 	return hash;
 }
 
+// expanding on basic hash by multiplying char by index * 13, minimizing merge conflicts
 unsigned int GoodHash(const char* data, unsigned int length) {
 	unsigned int hash = 0;
 	for (unsigned int i = 0; i < length; i++) {
@@ -21,6 +23,7 @@ unsigned int GoodHash(const char* data, unsigned int length) {
 	return hash;
 }
 
+// takes the hash array and the hash value, and returns the corresponding string
 std::string UnHash(unsigned int hash, std::string names[]) {
 	return names[hash % 20];
 }

@@ -139,8 +139,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9aeb96aba43c2b459e684e799c5fb52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  neighbors: []
+  leader: {fileID: 6076220577093619474}
   separationWeight: 1
   alignmentWeight: 1
-  cohesionWeight: 1
+  cohesionWeight: 0.9
   speed: 1
+  maxForce: 8
   rb: {fileID: 0}
